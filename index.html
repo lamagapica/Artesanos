@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Secreto de Varia - Escape Room Romano</title>
+    <title>El Secreto de Varia - El Tesoro de Uara</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonts: Inter for Body, Cinzel & Marcellus for Classic Roman Typography -->
+    <!-- Fonts: Inter for readable body text, Cinzel & Marcellus for Roman titles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons for clean SVG symbols -->
+    <!-- FontAwesome Icons (No emojis allowed) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -36,6 +36,7 @@
     </script>
 
     <style>
+        /* BASE PARCHMENT BACKDROP */
         body {
             background-color: #26160d;
             color: #382417;
@@ -47,14 +48,16 @@
             min-height: 100vh;
         }
 
+        /* CONTINUOUS PARCHMENT SURFACE (NO WHITE/BOX CARDS) */
         .parchment-sheet {
             background-color: #E7C196;
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 245, 225, 0.7) 0%, rgba(231, 193, 150, 0.95) 100%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 245, 225, 0.75) 0%, rgba(231, 193, 150, 0.95) 100%);
             color: #382417;
             border-top: 4px solid #C57938;
             border-bottom: 4px solid #6D3C1C;
         }
 
+        /* CLASSIC ROMAN ORNAMENTAL LINES */
         .roman-divider {
             height: 2px;
             background: linear-gradient(90deg, transparent 0%, #C57938 25%, #6D3C1C 50%, #C57938 75%, transparent 100%);
@@ -66,6 +69,7 @@
             outline-offset: -5px;
         }
 
+        /* BEFORE / AFTER TEMPORAL SLIDER */
         .slider-container {
             position: relative;
             overflow: hidden;
@@ -81,12 +85,14 @@
             border-right: 3px solid #C57938;
         }
 
+        /* CRYPTEX ROTATORS */
         .cryptex-digit {
             background: linear-gradient(180deg, #6D3C1C 0%, #382417 50%, #26160d 100%);
             border: 2px solid #C57938;
             color: #E7C196;
         }
 
+        /* PRINTABLE DIPLOMA STYLING */
         @media print {
             body * {
                 visibility: hidden;
@@ -111,31 +117,31 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- HEADER / NAVIGATION BAR -->
+    <!-- HEADER NAVIGATION BAR -->
     <header class="relative z-20 bg-cafe-dark border-b-2 border-miel px-4 md:px-8 py-4 text-vainilla">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             
             <!-- Logo & Title -->
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 border border-miel flex items-center justify-center bg-caramelo-dark text-miel font-cinzel font-bold text-lg">
-                    V
+                    IV
                 </div>
                 <div>
                     <h1 class="font-cinzel text-base md:text-xl font-bold tracking-widest uppercase text-vainilla">
-                        El Secreto de Vareia Romana
+                        El Secreto de Varia
                     </h1>
-                    <p class="text-[11px] font-roman text-miel tracking-wider">Guía: Petra • Misión Arqueológica en Varea (Logroño)</p>
+                    <p class="text-[11px] font-roman text-miel tracking-wider">Escape Room en Busca del Tesoro de Uara</p>
                 </div>
             </div>
 
-            <!-- Header Status & Audio -->
+            <!-- Header Status & Controls -->
             <div class="flex items-center space-x-4 md:space-x-6">
                 <div id="player-badge" class="hidden text-xs text-vainilla flex items-center gap-2 border-r border-miel/40 pr-4">
                     <span class="text-miel font-cinzel uppercase">Explorador/a:</span>
-                    <span id="header-player-name" class="font-bold uppercase tracking-wider">Explorador</span>
+                    <span id="header-player-name" class="font-bold uppercase tracking-wider">---</span>
                 </div>
 
-                <!-- Audio Controls -->
+                <!-- Web Audio Toggle -->
                 <button id="audio-btn" onclick="toggleAudio()" class="text-miel hover:text-vainilla transition text-xs font-cinzel uppercase flex items-center gap-1.5" title="Sonido">
                     <i id="audio-icon" class="fa-solid fa-volume-xmark text-vainilla/50"></i>
                     <span class="hidden sm:inline">Sonido</span>
@@ -151,72 +157,69 @@
         </div>
     </header>
 
-    <!-- MAIN GAME AREA (PARCHMENT CANVAS) -->
+    <!-- MAIN GAME AREA (PARCHMENT SURFACE) -->
     <main class="relative z-10 flex-grow max-w-5xl w-full mx-auto my-4 md:my-8 px-4">
         
         <div class="parchment-sheet roman-border-box p-6 md:p-12 space-y-8 shadow-2xl">
             
-            <!-- STAGE 1: NARRATIVE INTRO & NAME INPUT -->
+            <!-- STAGE 1: WELCOME & PLAYER NAME INPUT -->
             <section id="stage-intro" class="space-y-8">
                 
                 <div class="text-center space-y-3">
                     <span class="font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest block">
-                        SIGLO I A.C. - SIGLO II D.C. • IMPERIVM ROMANVM • VAREIA
+                        MISIÓN ARQUEOLÓGICA HÍBRIDA EN VAREA • LEGIO IV MACEDONICA
                     </span>
                     <h2 class="font-cinzel text-3xl md:text-5xl font-black text-cafe tracking-wide uppercase">
-                        El Edictum del Legado Romano
+                        El Tesoro de Uara
                     </h2>
                     <div class="roman-divider max-w-md mx-auto"></div>
                 </div>
 
-                <!-- Main Narrative Introduction with Petra -->
+                <!-- Story Mystery Introduction from Petra -->
                 <div class="space-y-4 text-sm md:text-base text-cafe leading-relaxed font-sans text-justify md:text-center max-w-3xl mx-auto">
-                    <p>
-                        <strong>¡Salve! Soy Petra</strong>, tu guía en la antigua <strong>Vareia</strong> (actual Varea).
+                    <p class="text-lg font-roman text-caramelo font-semibold">
+                        «¡Rápido, acércate! Mi nombre es Petra y soy una exploradora de Varea. ¡Tenemos una misión urgente!»
                     </p>
                     <p>
-                        ¿Sabías que nuestra ciudad nació a partir de un campamento levantado por una <em>vexillatio</em> de la <strong>Legión IV Macedónica</strong> durante las Guerras Cántabras (27-19 a.c.)? Con el tiempo, este enclave estratégico en un cerro entre el río Iregua y el río Ebro creció hasta ocupar 15 hectáreas y albergar a 2200 habitantes en el siglo II d.c.
+                        El General romano de la <strong>Legión IV Macedónica</strong> ha escondido en el <strong>Arca de la Legión</strong> el legendario <strong>"Tesoro de Uara"</strong>: una sagrada <em>tésera de hospitalidad</em> de bronce que une la amistad entre los antiguos pobladores berones del yacimiento de La Custodia y Monte Cantabria con los fundadores de la nueva Varia romana.
                     </p>
                     <p>
-                        El nombre de Varea procede de <strong>Uara</strong>, un histórico asentamiento Berón emplazado a 2 km al otro lado del Ebro, en La Custodia, que empleaba el monte Cantabria para resguardarse. Vestigios de aquel fortificado <em>oppidum</em> original perduran hoy en las actuales calles Martín Zurbano y Frontón.
-                    </p>
-                    <p class="text-caramelo font-semibold">
-                        El Legado de la legión ha custodiado el <strong>Edictum Imperial</strong> dentro del Arca del Legado, protegida por un Criptex de 4 cifras romanas. ¡Acompáñame por las 4 estaciones de Varea para resolver las preguntas históricas y obtener la combinación!
+                        ¡Los centuriones están a punto de marchar y levantar el campamento instalado en las actuales calles Martín Zurbano y Frontón! Debemos seguir el mapa por los rincones de Varea, superar los 4 enigmas y conseguir las 4 cifras del candado imperial antes de que sea tarde.
                     </p>
                 </div>
 
-                <!-- Name Input & Start Button -->
+                <!-- Name Input Box -->
                 <div class="max-w-md mx-auto space-y-4 pt-4 text-center">
                     <div class="space-y-2">
                         <label for="player-name-input" class="block font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest">
-                            Inscribe tu Nombre de Explorador/a Imperial:
+                            Inscribe tu Nombre en el Pergamino del Explorador:
                         </label>
-                        <input type="text" id="player-name-input" placeholder="Ej: Lucas, Julia, Mateo..." 
+                        <input type="text" id="player-name-input" placeholder="Escribe tu nombre aquí..." 
                                class="w-full bg-vainilla border-2 border-caramelo px-4 py-3 text-cafe font-bold text-center text-lg focus:outline-none focus:border-miel transition rounded-none">
                     </div>
 
                     <button onclick="startGame()" class="w-full py-4 bg-caramelo text-vainilla font-cinzel font-bold text-sm tracking-widest uppercase hover:bg-cafe transition border border-miel flex items-center justify-center gap-3">
                         <i class="fa-solid fa-compass"></i>
-                        <span>Iniciar la Aventura con Petra</span>
+                        <span>Iniciar Misión con Petra</span>
                     </button>
                 </div>
 
             </section>
 
 
-            <!-- STAGE 2: STATIONS TOUR -->
+            <!-- STAGE 2: STATIONS TOUR (ALMAZARA -> TERMAS -> ARTESANOS -> CAMPAMENTO) -->
             <section id="stage-game" class="hidden space-y-8">
                 
-                <!-- Sequential Stepper Navigation & QR Button -->
+                <!-- Stepper Progress Bar & QR Simulator -->
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4 border-b border-caramelo/30 pb-4">
                     <div class="flex items-center gap-3 md:gap-6 font-cinzel text-xs tracking-wider flex-wrap justify-center">
-                        <span id="step-1-indicator" class="text-cafe font-bold border-b-2 border-caramelo pb-1">I. Almazara</span>
+                        <span id="step-1-indicator" class="text-cafe font-bold border-b-2 border-caramelo pb-1">1. Almazara</span>
                         <span class="text-caramelo/40">&rarr;</span>
-                        <span id="step-2-indicator" class="text-caramelo/50">II. Termas</span>
+                        <span id="step-2-indicator" class="text-caramelo/50">2. Termas</span>
                         <span class="text-caramelo/40">&rarr;</span>
-                        <span id="step-3-indicator" class="text-caramelo/50">III. Artesanos</span>
+                        <span id="step-3-indicator" class="text-caramelo/50">3. Calle Artesanos</span>
                         <span class="text-caramelo/40">&rarr;</span>
-                        <span id="step-4-indicator" class="text-caramelo/50">IV. Campamento</span>
+                        <span id="step-4-indicator" class="text-caramelo/50">4. Campamento</span>
                     </div>
 
                     <button onclick="openQRScannerModal()" class="px-4 py-2 border border-caramelo text-caramelo hover:bg-caramelo hover:text-vainilla transition font-cinzel text-xs font-bold tracking-widest uppercase flex items-center gap-2">
@@ -234,27 +237,27 @@
                         </h2>
                     </div>
                     <div id="station-location-badge" class="font-roman text-xs text-caramelo font-semibold bg-miel/20 px-3 py-1.5 border border-miel/40 self-start md:self-auto">
-                        Ubicación: Punto Arqueológico Almazara
+                        Punto Arqueológico: Antigua Almazara
                     </div>
                 </div>
 
-                <!-- Split View: Visual Viewers & Narrative/Riddle -->
+                <!-- Station Main Grid: Interactive Viewers & Enigma -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     
-                    <!-- Left: Interactive Visual Viewers (Slider & 360 Canvas) -->
+                    <!-- Left Column: Temporal Slider & 360 Canvas -->
                     <div class="lg:col-span-7 space-y-4">
                         
-                        <!-- Toggle view buttons -->
+                        <!-- Toggle View Mode -->
                         <div class="flex gap-6 border-b border-caramelo/20 pb-2 text-xs font-cinzel">
                             <button id="btn-view-slider" onclick="switchStationView('slider')" class="text-cafe border-b-2 border-caramelo font-bold pb-1 transition">
-                                <i class="fa-solid fa-sliders mr-1.5"></i> Vareia Romana vs Actualidad
+                                <i class="fa-solid fa-sliders mr-1.5"></i> Época Romana vs Actualidad
                             </button>
                             <button id="btn-view-360" onclick="switchStationView('360')" class="text-caramelo/60 hover:text-cafe pb-1 transition">
-                                <i class="fa-solid fa-compass mr-1.5"></i> Visor Panorámico 360°
+                                <i class="fa-solid fa-compass mr-1.5"></i> Visor 360° Interactivo
                             </button>
                         </div>
 
-                        <!-- Viewer 1: Temporal Slider -->
+                        <!-- Viewer 1: 3D Before/After Slider -->
                         <div id="view-slider-container" class="relative border-2 border-caramelo h-72 md:h-80 bg-cafe/20">
                             <img id="img-actual" src="" alt="Varea Actualidad" class="w-full h-full object-cover">
                             
@@ -266,10 +269,10 @@
                                    class="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30">
 
                             <span class="absolute top-3 left-3 z-20 text-[11px] font-cinzel uppercase text-vainilla bg-cafe px-2.5 py-1 border border-miel/60">
-                                Vareia Romana
+                                Varia Romana (Reconstrucción)
                             </span>
                             <span class="absolute top-3 right-3 z-20 text-[11px] font-cinzel uppercase text-vainilla bg-cafe px-2.5 py-1 border border-miel/60">
-                                Varea Actual
+                                Varea Actual (Hoy)
                             </span>
 
                             <div id="slider-handle" class="absolute top-0 bottom-0 left-1/2 w-0.5 bg-miel z-20 pointer-events-none flex items-center justify-center">
@@ -279,56 +282,56 @@
                             </div>
                         </div>
 
-                        <!-- Viewer 2: HTML5 Canvas 360 Pan -->
+                        <!-- Viewer 2: Draggable 360° Canvas -->
                         <div id="view-360-container" class="hidden relative border-2 border-caramelo h-72 md:h-80 bg-cafe/30 cursor-grab active:cursor-grabbing">
                             <canvas id="canvas-360" class="w-full h-full"></canvas>
                             <div class="absolute bottom-3 left-3 text-[11px] font-cinzel text-vainilla bg-cafe/90 px-3 py-1 border border-miel/40">
-                                Haz clic y arrastra horizontalmente para rotar 360°
+                                Arrastra horizontalmente para explorar el recinto en 360°
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- Right: Narrative & Question Puzzle -->
+                    <!-- Right Column: Narrative Story & Enigma Puzzle -->
                     <div class="lg:col-span-5 space-y-6">
                         
                         <!-- Petra Narrative -->
                         <div class="space-y-2 border-l-4 border-caramelo pl-4">
                             <h3 class="font-cinzel text-xs uppercase tracking-widest text-caramelo font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-user"></i>
-                                <span>Petra te enseña la historia:</span>
+                                <i class="fa-solid fa-scroll"></i>
+                                <span>Mensaje de Petra:</span>
                             </h3>
                             <p id="station-history-text" class="text-xs md:text-sm text-cafe leading-relaxed font-sans italic">
-                                Cargando historia...
+                                Carga de la narrativa histórica...
                             </p>
                         </div>
 
-                        <!-- Educational Riddle Box -->
+                        <!-- Interactive Question Box -->
                         <div id="riddle-box" class="space-y-3 pt-2 border-t border-caramelo/20">
                             <h4 class="font-cinzel text-xs uppercase tracking-widest text-caramelo font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-puzzle-piece"></i>
-                                <span>Enigma Histórico de Vareia:</span>
+                                <i class="fa-solid fa-key"></i>
+                                <span>Desafío del Códice:</span>
                             </h4>
                             <p id="station-question" class="text-xs md:text-sm text-cafe font-semibold">
                                 Pregunta de la estación...
                             </p>
 
-                            <!-- Options -->
+                            <!-- Question Options -->
                             <div id="question-options" class="space-y-2 pt-1">
-                                <!-- Dynamic Options -->
+                                <!-- Dynamic Buttons -->
                             </div>
 
-                            <!-- Feedback -->
+                            <!-- Feedback Message -->
                             <div id="question-feedback" class="hidden pt-2 text-xs font-bold"></div>
                         </div>
 
-                        <!-- Next Location Clue Box -->
+                        <!-- Hybrid Next Location Clue Box -->
                         <div id="next-clue-box" class="hidden p-4 border-2 border-caramelo bg-miel/15 space-y-2">
                             <span class="font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest block flex items-center gap-2">
-                                <i class="fa-solid fa-compass"></i>
+                                <i class="fa-solid fa-location-dot"></i>
                                 <span>Pista de la Siguiente Ubicación:</span>
                             </span>
-                            <p id="station-next-clue" class="text-xs md:text-sm text-cafe italic font-roman">
+                            <p id="station-next-clue" class="text-xs md:text-sm text-cafe font-roman italic">
                                 Siguiente pista...
                             </p>
                         </div>
@@ -340,7 +343,7 @@
                 <!-- Key Code Bar & Advance Button -->
                 <div class="pt-6 border-t border-caramelo/30 flex flex-col sm:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-3">
-                        <span class="text-xs font-cinzel text-caramelo font-bold uppercase tracking-wider">Códice Obtenido:</span>
+                        <span class="text-xs font-cinzel text-caramelo font-bold uppercase tracking-wider">Cifras del Candado:</span>
                         <div class="flex gap-2 font-mono">
                             <div id="digit-slot-1" class="w-10 h-10 border-2 border-caramelo text-cafe font-bold flex items-center justify-center text-lg bg-vainilla">?</div>
                             <div id="digit-slot-2" class="w-10 h-10 border-2 border-caramelo text-cafe font-bold flex items-center justify-center text-lg bg-vainilla">?</div>
@@ -362,61 +365,65 @@
             <section id="stage-victory" class="hidden space-y-8 text-center max-w-2xl mx-auto py-4">
                 
                 <div class="w-16 h-16 mx-auto border-2 border-caramelo flex items-center justify-center text-caramelo text-2xl bg-miel/20">
-                    <i class="fa-solid fa-vault"></i>
+                    <i class="fa-solid fa-lock"></i>
                 </div>
 
                 <div class="space-y-2">
-                    <span class="font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest">Sello Imperial de la Legión IV Macedónica</span>
+                    <span class="font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest">Sello de la Legión IV Macedónica</span>
                     <h2 class="font-cinzel text-3xl md:text-4xl font-black text-cafe uppercase tracking-wide">
-                        El Arca del Legado
+                        El Arca de la Legión
                     </h2>
                     <p class="text-xs text-caramelo font-roman max-w-md mx-auto">
-                        Petra te anima a girar los rodillos en números romanos para introducir las 4 cifras conseguidas en el itinerario.
+                        Introduce en números romanos las 4 cifras obtenidas en el recorrido (7 - 3 - 9 - 2) para liberar el Tesoro de Uara.
                     </p>
                 </div>
 
-                <!-- Cryptex 4 Rotators in Roman Numerals -->
+                <!-- 4 Rotators in Roman Numerals -->
                 <div class="flex justify-center items-center gap-3 py-6">
                     
+                    <!-- Rotator 1 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(0, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
                         <div id="cryptex-0" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(0, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
-                        <span class="text-[10px] font-cinzel text-caramelo mt-1">1ª Cifra</span>
+                        <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 1 (7)</span>
                     </div>
 
+                    <!-- Rotator 2 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(1, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
                         <div id="cryptex-1" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(1, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
-                        <span class="text-[10px] font-cinzel text-caramelo mt-1">2ª Cifra</span>
+                        <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 2 (3)</span>
                     </div>
 
+                    <!-- Rotator 3 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(2, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
                         <div id="cryptex-2" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(2, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
-                        <span class="text-[10px] font-cinzel text-caramelo mt-1">3ª Cifra</span>
+                        <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 3 (9)</span>
                     </div>
 
+                    <!-- Rotator 4 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(3, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
                         <div id="cryptex-3" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(3, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
-                        <span class="text-[10px] font-cinzel text-caramelo mt-1">4ª Cifra</span>
+                        <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 4 (2)</span>
                     </div>
 
                 </div>
 
-                <!-- Verify Lock -->
+                <!-- Verify Lock Button -->
                 <div class="pt-2">
                     <button onclick="verifyTreasurePin()" class="w-full max-w-sm py-4 bg-caramelo text-vainilla font-cinzel font-bold text-xs tracking-widest uppercase hover:bg-cafe transition border border-miel">
-                        Abrir Arca del Legado
+                        Abrir el Arca Imperial
                     </button>
                 </div>
 
                 <div id="pin-error" class="hidden text-xs font-bold text-red-700 border border-red-500 p-3 bg-red-100">
-                    Combinación incorrecta. Revisa las 4 cifras alcanzadas.
+                    Combinación incorrecta. Revisa el valor romano de tus 4 cifras.
                 </div>
 
             </section>
@@ -427,33 +434,33 @@
 
     <!-- FOOTER -->
     <footer class="relative z-20 bg-cafe-dark border-t border-miel py-4 text-center text-xs text-miel font-cinzel tracking-widest uppercase">
-        Vareia Romana Escape Room • Legio IV Macedonica • Varea (Logroño)
+        Varia Romana Escape Room • Legio IV Macedonica • Varea (Logroño)
     </footer>
 
 
-    <!-- MODAL 1: QR SIMULATOR -->
+    <!-- MODAL 1: QR CODE SIMULATOR -->
     <div id="qr-modal" class="hidden fixed inset-0 z-50 bg-cafe-dark/90 flex items-center justify-center p-4">
         <div class="parchment-sheet roman-border-box max-w-md w-full p-6 text-center space-y-4">
             <div class="flex justify-between items-center border-b border-caramelo/30 pb-2">
-                <h3 class="font-cinzel text-sm font-bold text-cafe uppercase tracking-wider">Escáner QR de Varea</h3>
+                <h3 class="font-cinzel text-sm font-bold text-cafe uppercase tracking-wider">Escáner QR del Recorrido</h3>
                 <button onclick="closeQRModal()" class="text-caramelo hover:text-cafe">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
 
             <p class="text-xs text-cafe font-sans">
-                Simula el escaneo del cartel ubicado físicamente en tu itinerario arqueológico:
+                Selecciona la señalización escaneada en las calles de Varea:
             </p>
 
             <select id="qr-select-location" class="w-full bg-vainilla border-2 border-caramelo text-cafe text-xs p-3 focus:outline-none font-cinzel">
-                <option value="almazara">I. La Almazara Romana</option>
-                <option value="termas">II. Las Termas (Donde La Carnicería)</option>
-                <option value="artesanos">III. Calle Artesanos (En El Laberinto)</option>
-                <option value="campamento">IV. Campamento de la Legión IV Macedónica (Plaza de la Iglesia)</option>
+                <option value="almazara">1. La Almazara (Punto de Inicio)</option>
+                <option value="termas">2. Las Termas (Ubicación: La Carnicería)</option>
+                <option value="artesanos">3. Calle de los Artesanos (Ubicación: El Laberinto)</option>
+                <option value="campamento">4. Campamento Romano (Ubicación: Plaza de la Iglesia)</option>
             </select>
 
             <button onclick="confirmQRScan()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs tracking-widest uppercase hover:bg-cafe transition">
-                Ir a la Estación Escaneada
+                Acceder a la Estación Escaneada
             </button>
         </div>
     </div>
@@ -470,40 +477,42 @@
             </div>
 
             <span class="font-cinzel text-xs font-bold uppercase tracking-widest text-caramelo block">
-                SENATVS POPVLVSQVE ROMANVS • VAREIA
+                SENATVS POPVLVSQVE ROMANVS • VAREIA IMPERIAL
             </span>
             
             <h1 class="font-cinzel text-3xl md:text-5xl font-black text-cafe border-b-2 border-caramelo pb-4 tracking-wider uppercase">
-                DIPLOMA IMPERIAL DE VAREIA
+                DIPLOMA IMPERIAL DE EXPLORADOR/A
             </h1>
 
             <p class="font-cinzel text-xs text-caramelo uppercase tracking-widest font-bold">
-                Por Decreto del Legado Imperial y con la guía de Petra, se concede la Distinción a:
+                Con la bendición del General de la Legión IV Macedónica y el testimonio de Petra, se otorga a:
             </p>
 
             <div id="diploma-player-name" class="font-roman text-3xl md:text-5xl text-caramelo font-bold py-3 border-y-2 border-caramelo uppercase tracking-widest">
-                EXPLORADOR
+                EXPLORADOR/A
             </div>
 
             <p class="text-xs md:text-sm text-cafe leading-relaxed max-w-xl mx-auto font-sans">
-                Por demostrar un conocimiento riguroso de la fundación de Varea por la <strong>Legión IV Macedónica</strong> en las Guerras Cántabras (27-19 a.c.), su origen berón en <strong>Uara (La Custodia)</strong> y los vestigios del oppidum en las calles Martín Zurbano y Frontón.
+                Por haber superado los 4 enigmas del recorrido de Varea, rescatando el <strong>Tesoro de Uara</strong> y protegiendo la tésera de hospitalidad que une a los antiguos berones de La Custodia con la ilustre Varia romana.
             </p>
 
             <div class="flex justify-between items-end pt-8 border-t border-caramelo/40 text-xs font-cinzel text-caramelo">
                 <div class="text-left space-y-1">
                     <p class="font-bold uppercase">Fecha de Expedición:</p>
                     <p id="diploma-date" class="text-cafe">XX de Octubre</p>
+                    <p class="text-[10px] text-caramelo/80 italic mt-1">Firma: Petra, Exploradora de Varea</p>
                 </div>
 
                 <!-- Roman Imperial Seal Replica -->
                 <div class="w-20 h-20 rounded-full bg-caramelo text-vainilla flex flex-col items-center justify-center font-cinzel font-bold text-xs border-4 border-miel shadow-inner">
                     <span>LEGIO IV</span>
-                    <span class="text-[8px]">MACEDONICA</span>
+                    <span class="text-[9px]">MACEDONICA</span>
                 </div>
 
                 <div class="text-right space-y-1">
-                    <p class="font-bold uppercase">Lugar de Honor:</p>
-                    <p class="text-cafe">Vareia (Varea, Logroño)</p>
+                    <p class="font-bold uppercase">Lugar del Hallazgo:</p>
+                    <p class="text-cafe">Varia (Varea, Logroño)</p>
+                    <p class="text-[10px] text-caramelo/80 italic mt-1">Plaza de la Iglesia</p>
                 </div>
             </div>
 
@@ -521,123 +530,472 @@
     </div>
 
 
-    <!-- MODAL 3: INSTRUCTIONS / GUIDE -->
+    <!-- MODAL 3: INSTRUCTIONS & MAP GUIDE -->
     <div id="instructions-modal" class="hidden fixed inset-0 z-50 bg-cafe-dark/90 flex items-center justify-center p-4">
         <div class="parchment-sheet roman-border-box max-w-lg w-full p-6 text-cafe space-y-4">
             <div class="flex justify-between items-center border-b border-caramelo/30 pb-2">
-                <h3 class="font-cinzel text-sm font-bold text-caramelo uppercase tracking-wider">Guía de la Misión con Petra</h3>
+                <h3 class="font-cinzel text-sm font-bold text-caramelo uppercase tracking-wider">Guía de Misión de Petra</h3>
                 <button onclick="closeInstructions()" class="text-caramelo hover:text-cafe">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="space-y-3 text-xs leading-relaxed text-cafe font-sans">
-                <p><strong>1. Experiencia Arqueológica:</strong> Acompaña a Petra recorriendo las calles de Varea mientras descubres el origen del campamento romano y el asentamiento berón.</p>
-                <p><strong>2. Itinerario Histórico:</strong></p>
-                <ul class="list-disc list-inside space-y-1 text-caramelo font-semibold pl-2">
-                    <li>I. Almazara (Producción y comercio)</li>
-                    <li>II. Termas (La Carnicería)</li>
-                    <li>III. Calle Artesanos (El Laberinto)</li>
-                    <li>IV. Campamento de la Legión IV Macedónica (Plaza de la Iglesia)</li>
-                </ul>
-                <p><strong>3. Códice Imperial:</strong> Cada enigma acertado desbloquea 1 cifra. Introduce las 4 cifras romanas en el Criptex para completar la aventura (VII - III - IX - II).</p>
+                <p><strong>1. Recorrido Híbrido:</strong> Escanea los códigos QR en cada punto de Varea o avanza estación a estación en esta guía interactiva.</p>
+                <p><strong>2. Orden de la Misión:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 text-caramelo font-semibold pl-2">
+                    <li>Almazara (Punto de inicio)</li>
+                    <li>Termas (En La Carnicería)</li>
+                    <li>Calle de los Artesanos (En El Laberinto)</li>
+                    <li>Campamento Romano (En la Plaza de la Iglesia)</li>
+                </ol>
+                <p><strong>3. Arca del Legado:</strong> Convierte las 4 cifras conseguidas a números romanos (VII - III - IX - II) para abrir el Criptex final.</p>
             </div>
 
             <button onclick="closeInstructions()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs uppercase tracking-widest hover:bg-cafe transition">
-                Entendido
+                Entendido, Continuar Recorrido
             </button>
         </div>
     </div>
 
 
-    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <!-- JAVASCRIPT GAME ENGINE -->
     <script>
         /* ==========================================================================
-           1. STATIONS & HISTORICALLY ACCURATE DATA (PETRA GUIDED)
+           1. STATIONS DATA (EXACT USER SPECIFICATIONS & NARRATIVE MISTERIO)
            ========================================================================== */
         const STATIONS = [
             {
                 id: 'almazara',
-                title: 'I. La Almazara Romana',
+                title: '1. La Almazara Romana',
                 location: 'Ubicación actual: Punto Arqueológico Almazara',
-                history: '«¡Hola! Soy Petra. Varea fue fundada sobre un campamento de la Legión IV Macedónica durante las Guerras Cántabras (siglo I a.c.). Con el tiempo se convirtió en una próspera ciudad comercial entre los ríos Iregua y Ebro. Aquí en la Almazara prensábamos el excelente aceite de oliva de Hispania».',
-                question: '¿Qué ríos rodean el cerro sobre el que se levantó estratégicamente la antigua Vareia?',
+                history: '«¡Hola! Soy Petra. Bienvenidos a la antigua Almazara. Aquí prensábamos las aceitunas recolectadas junto al río Ebro para obtener el preciado aceite de oliva de Varia. El General de la Legión IV ha escondido aquí la primera pista para localizar el Tesoro de Uara».',
+                question: '¿Qué valioso líquido dorado elaborado en muelas de piedra prensaban los romanos en la Almazara de Varea?',
                 options: [
-                    { text: 'A) El río Iregua y el río Ebro', correct: true },
-                    { text: 'B) El río Duero y el río Tajo', correct: false },
-                    { text: 'C) El río Guadalquivir y el río Segura', correct: false }
+                    { text: 'A) El aceite de oliva virgen de Varia', correct: true },
+                    { text: 'B) Jarabe de miel y moras', correct: false },
+                    { text: 'C) Perfume de rosas importado de Roma', correct: false }
                 ],
                 digit: '7',
                 romanDigit: 'VII',
-                nextClue: '«¡Excelente! Dirígete hacia LA CARNICERÍA... Allí hallaremos los vestigios de las antiguas TERMAS ROMANAS».',
+                nextClue: '«¡Muy bien hecho! Habéis conseguido la Cifra 1: VII (7). Para la siguiente pista: Debéis ir a Las Termas, que en la Varea actual se encuentran donde la Carnicería».',
                 imgRoman: 'https://images.unsplash.com/photo-1541971875076-8f970d573be6?auto=format&fit=crop&w=800&q=80',
                 imgActual: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
                 pano360: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80'
             },
             {
                 id: 'termas',
-                title: 'II. Las Termas Romanas',
-                location: 'Ubicación actual: En La Carnicería',
-                history: '«Petra os cuenta: El nombre de Varea procede de Uara, un poblado berón situado a 2 km al otro lado del Ebro, en La Custodia, respaldado por el monte Cantabria. En el siglo II d.c., Varia llegó a tener 2200 habitantes y 15 hectáreas. ¡Las termas eran el punto de encuentro ciudadano!».',
-                question: '¿De qué antiguo poblado berón situado al otro lado del Ebro (yacimiento de La Custodia) procede el nombre de Varea?',
+                title: '2. Las Termas Romanas',
+                location: 'Ubicación actual: La Carnicería',
+                history: '«¡Habéis encontrado el lugar exacto donde estuvo La Carnicería! Bajo nuestros pies se ubican las canalizaciones de las antiguas Termas Romanas. El agua tibia del Caldarium relajaba a los soldados de la Legio IV Macedónica tras sus patrullas».',
+                question: '¿Cómo llamaban los romanos a la sala de agua caliente con horno subterráneo (hipocausto) en las Termas?',
                 options: [
-                    { text: 'A) Numancia', correct: false },
-                    { text: 'B) Uara', correct: true },
-                    { text: 'C) Calagurris', correct: false }
+                    { text: 'A) Caldarium', correct: true },
+                    { text: 'B) Frigidarium', correct: false },
+                    { text: 'C) Natatio', correct: false }
                 ],
                 digit: '3',
                 romanDigit: 'III',
-                nextClue: '«¡Muy bien! Camina ahora hacia EL LABERINTO... Donde estuvo la activa CALLE DE LOS ARTESANOS».',
+                nextClue: '«¡Fantástico! Ya tenéis la Cifra 2: III (3). Escuchad la pista de Petra: Avanzad hacia la Calle de los Artesanos, que hoy se oculta donde está El Laberinto».',
                 imgRoman: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80',
                 imgActual: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
                 pano360: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80'
             },
             {
                 id: 'artesanos',
-                title: 'III. Calle de los Artesanos',
-                location: 'Ubicación actual: En El Laberinto',
-                history: '«Petra nos muestra la trama urbana: Las actuales calles Martín Zurbano y Frontón conservan todavía los vestigios del antiguo oppidum (el asentamiento fortificado elevado). En este barrio artesano se modelaba cerámica y recipientes para el comercio fluvial».',
-                question: '¿Qué calles actuales de Varea se consideran vestigios del antiguo oppidum fortificado?',
+                title: '3. Calle de los Artesanos',
+                location: 'Ubicación actual: El Laberinto',
+                history: '«¡Excelente orientación! Habéis llegado a El Laberinto. En época romana, esta calle hervía de actividad con alfareros moldeando la famosa vajilla roja de cerámica Terra Sigillata decorada con sellos únicos».',
+                question: '¿Qué tipo de cotizada cerámica romana de color rojo brillante se moldeaba en los talleres de artesanía de Varia?',
                 options: [
-                    { text: 'A) Calles Martín Zurbano y Frontón', correct: true },
-                    { text: 'B) Calles Gran Vía y Espartero', correct: false },
-                    { text: 'C) Calles Portales y Laurel', correct: false }
+                    { text: 'A) Ceramica Terra Sigillata con sellos', correct: true },
+                    { text: 'B) Porcelana china dorada', correct: false },
+                    { text: 'C) Azulejos de cristal azul', correct: false }
                 ],
                 digit: '9',
                 romanDigit: 'IX',
-                nextClue: '«¡Casi hemos llegado! Avanza hasta LA PLAZA DE LA IGLESIA... El emplazamiento del primer CAMPAMENTO LEGIONARIO».',
+                nextClue: '«¡Sois imparables! Lograsteis la Cifra 3: IX (9). La última pista dice: Buscad el antiguo Campamento Romano de la Legión IV Macedónica, situado en la Plaza de la Iglesia».',
                 imgRoman: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80',
                 imgActual: 'https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=800&q=80',
                 pano360: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80'
             },
             {
                 id: 'campamento',
-                title: 'IV. Campamento de la Legión IV Macedónica',
+                title: '4. Campamento Romano',
                 location: 'Ubicación actual: Plaza de la Iglesia',
-                history: '«¡Llegamos al origen militar de Varia! En el siglo I a.c. (27-19 a.c.), una vexillatio de la Legión IV Macedónica estableció aquí su campamento durante las Guerras Cántabras, dando inicio a la historia de nuestra ciudad».',
-                question: '¿Qué destacamento (vexillatio) de qué legión romana estableció el campamento inicial en Varea?',
+                history: '«¡Habéis alcanzado la Plaza de la Iglesia! Aquí estuvo la sede principal del campamento militar romano levantado por la Legio IV Macedónica durante las Guerras Cántabras. ¡El Arca con el Tesoro de Uara está esperándonos!»',
+                question: '¿Cuál era el símbolo sagrado del estandarte militar legionarios que custodiaba el campamento romano?',
                 options: [
-                    { text: 'A) Legión VII Gemina', correct: false },
-                    { text: 'B) Vexillatio de la Legión IV Macedónica', correct: true },
-                    { text: 'C) Legión X Gemina', correct: false }
+                    { text: 'A) El Águila Imperial (Aquila)', correct: true },
+                    { text: 'B) El León de Ordes', correct: false },
+                    { text: 'C) El Delfín del Ebro', correct: false }
                 ],
                 digit: '2',
                 romanDigit: 'II',
-                nextClue: '«¡Petra te felicita! Has reunido las 4 cifras del Códice. Abre el Arca del Legado introduciendo la combinación en el Criptex».',
+                nextClue: '«¡Teníamos razón! Cifra 4 obtenida: II (2). ¡Acompañad a Petra a introducir el código completo 7-3-9-2 en números romanos (VII - III - IX - II) en el Criptex!»',
                 imgRoman: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80',
                 imgActual: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80',
                 pano360: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80'
             }
         ];
 
+        // Roman numerals array for rotators (0..9)
         const ROMAN_NUMS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
 
+        // Global State Variables
         let playerName = "";
         let currentStationIndex = 0;
         let collectedDigits = [null, null, null, null];
-        let cryptexIndices = [0, 0, 0, 0];
+        let cryptexIndices = [0, 0, 0, 0]; // Index 0 = 'I'
         let audioActive = false;
         let audioCtx = null;
 
         /* ==========================================================================
-           2. 360 PANOR
+           2. 360 PANORAMA CANVAS VIEWER
+           ========================================================================== */
+        let panoCanvas, panoCtx, panoImg;
+        let isDraggingPano = false;
+        let panoX = 0;
+
+        function setupPano360() {
+            panoCanvas = document.getElementById('canvas-360');
+            if (!panoCanvas) return;
+            panoCtx = panoCanvas.getContext('2d');
+            panoImg = new Image();
+
+            panoCanvas.addEventListener('mousedown', () => isDraggingPano = true);
+            window.addEventListener('mouseup', () => isDraggingPano = false);
+            panoCanvas.addEventListener('mousemove', (e) => {
+                if (isDraggingPano) {
+                    panoX -= e.movementX * 1.5;
+                    drawPano();
+                }
+            });
+
+            let touchStartX = 0;
+            panoCanvas.addEventListener('touchstart', (e) => touchStartX = e.touches[0].clientX);
+            panoCanvas.addEventListener('touchmove', (e) => {
+                const delta = touchStartX - e.touches[0].clientX;
+                panoX += delta * 1.2;
+                touchStartX = e.touches[0].clientX;
+                drawPano();
+            });
+        }
+
+        function loadPanoImage(url) {
+            panoImg.src = url;
+            panoImg.onload = () => {
+                panoX = 0;
+                drawPano();
+            };
+        }
+
+        function drawPano() {
+            if (!panoCanvas || !panoImg.complete) return;
+            panoCanvas.width = panoCanvas.parentElement.clientWidth;
+            panoCanvas.height = panoCanvas.parentElement.clientHeight;
+
+            const w = panoCanvas.width;
+            const h = panoCanvas.height;
+            panoX = (panoX + panoImg.width) % panoImg.width;
+
+            panoCtx.clearRect(0, 0, w, h);
+            panoCtx.drawImage(panoImg, panoX, 0, w, h, 0, 0, w, h);
+        }
+
+        window.addEventListener('DOMContentLoaded', setupPano360);
+
+        /* ==========================================================================
+           3. GAME FLOW ENGINE
+           ========================================================================== */
+        function startGame() {
+            const input = document.getElementById('player-name-input');
+            const name = input.value.trim();
+
+            if (!name) {
+                alert("Por favor, escribe tu nombre en el pergamino para iniciar la expedición con Petra.");
+                return;
+            }
+
+            playerName = name;
+            document.getElementById('header-player-name').innerText = playerName;
+            document.getElementById('player-badge').classList.remove('hidden');
+
+            document.getElementById('stage-intro').classList.add('hidden');
+            document.getElementById('stage-game').classList.remove('hidden');
+
+            loadStation(0);
+            playCoinSound();
+        }
+
+        function loadStation(index) {
+            currentStationIndex = index;
+            const data = STATIONS[index];
+
+            document.getElementById('station-tag').innerText = `Estación ${index + 1} de 4`;
+            document.getElementById('station-title').innerText = data.title;
+            document.getElementById('station-location-badge').innerText = data.location;
+            document.getElementById('station-history-text').innerText = data.history;
+            document.getElementById('station-question').innerText = data.question;
+
+            document.getElementById('img-roman').src = data.imgRoman;
+            document.getElementById('img-actual').src = data.imgActual;
+            loadPanoImage(data.pano360);
+
+            updateSlider(50);
+            document.getElementById('time-slider').value = 50;
+
+            const optsContainer = document.getElementById('question-options');
+            optsContainer.innerHTML = '';
+
+            data.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full py-3 px-4 text-left text-xs md:text-sm font-sans text-cafe border border-caramelo/40 bg-vainilla hover:bg-miel/20 hover:border-caramelo transition flex justify-between items-center";
+                btn.innerHTML = `<span>${opt.text}</span>`;
+                btn.onclick = () => checkAnswer(opt.correct, data.digit, data.romanDigit, btn);
+                optsContainer.appendChild(btn);
+            });
+
+            document.getElementById('question-feedback').classList.add('hidden');
+            document.getElementById('next-clue-box').classList.add('hidden');
+
+            const nextBtn = document.getElementById('btn-next-station');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-caramelo/40 border border-caramelo/30 uppercase tracking-widest transition cursor-not-allowed";
+
+            updateProgressStepper(index);
+        }
+
+        function updateProgressStepper(activeIdx) {
+            for (let i = 1; i <= 4; i++) {
+                const el = document.getElementById(`step-${i}-indicator`);
+                if (i - 1 === activeIdx) {
+                    el.className = "text-cafe font-bold border-b-2 border-caramelo pb-1";
+                } else if (i - 1 < activeIdx) {
+                    el.className = "text-caramelo font-semibold";
+                } else {
+                    el.className = "text-caramelo/50";
+                }
+            }
+        }
+
+        function updateSlider(val) {
+            const overlay = document.getElementById('slider-overlay');
+            const handle = document.getElementById('slider-handle');
+            if (overlay && handle) {
+                overlay.style.width = `${val}%`;
+                handle.style.left = `${val}%`;
+            }
+        }
+
+        function switchStationView(mode) {
+            const sliderBox = document.getElementById('view-slider-container');
+            const panoBox = document.getElementById('view-360-container');
+            const btnSlider = document.getElementById('btn-view-slider');
+            const btnPano = document.getElementById('btn-view-360');
+
+            if (mode === 'slider') {
+                sliderBox.classList.remove('hidden');
+                panoBox.classList.add('hidden');
+                btnSlider.className = "text-cafe border-b-2 border-caramelo font-bold pb-1 transition";
+                btnPano.className = "text-caramelo/60 hover:text-cafe pb-1 transition";
+            } else {
+                sliderBox.classList.add('hidden');
+                panoBox.classList.remove('hidden');
+                btnPano.className = "text-cafe border-b-2 border-caramelo font-bold pb-1 transition";
+                btnSlider.className = "text-caramelo/60 hover:text-cafe pb-1 transition";
+                drawPano();
+            }
+        }
+
+        function checkAnswer(isCorrect, digit, romanDigit, buttonEl) {
+            const feedback = document.getElementById('question-feedback');
+            feedback.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedback.className = "pt-2 text-xs font-bold text-caramelo flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-green-700"></i> <span>¡Correcto! Petra confirma el hallazgo. Cifra desbloqueada: <strong class="text-sm font-cinzel text-cafe">${digit} (${romanDigit})</strong></span>`;
+                playCoinSound();
+
+                collectedDigits[currentStationIndex] = digit;
+                document.getElementById(`digit-slot-${currentStationIndex + 1}`).innerText = digit;
+
+                const clueBox = document.getElementById('next-clue-box');
+                document.getElementById('station-next-clue').innerText = STATIONS[currentStationIndex].nextClue;
+                clueBox.classList.remove('hidden');
+
+                const nextBtn = document.getElementById('btn-next-station');
+                nextBtn.disabled = false;
+                nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-vainilla bg-caramelo hover:bg-cafe uppercase tracking-widest transition cursor-pointer border border-miel";
+
+            } else {
+                feedback.className = "pt-2 text-xs font-bold text-red-700 flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>Respuesta incorrecta. Revisa el relato de Petra sobre Varea.</span>`;
+                playTone(180, 0.3);
+            }
+        }
+
+        function advanceToNextStation() {
+            if (currentStationIndex < STATIONS.length - 1) {
+                loadStation(currentStationIndex + 1);
+            } else {
+                document.getElementById('stage-game').classList.add('hidden');
+                document.getElementById('stage-victory').classList.remove('hidden');
+                playLockSound();
+            }
+        }
+
+        /* ==========================================================================
+           4. CRYPTEX & TREASURE CHEST UNLOCK
+           ========================================================================== */
+        function changeCryptexDigit(idx, dir) {
+            cryptexIndices[idx] = (cryptexIndices[idx] + dir + 10) % 10;
+            const romanChar = ROMAN_NUMS[cryptexIndices[idx]];
+            document.getElementById(`cryptex-${idx}`).innerText = romanChar;
+            playTone(300 + idx * 50, 0.08);
+        }
+
+        function verifyTreasurePin() {
+            // Target code 7 - 3 - 9 - 2 -> Indices in ROMAN_NUMS: 6 ('VII'), 2 ('III'), 8 ('IX'), 1 ('II')
+            const targetIndices = [6, 2, 8, 1];
+            const isMatch = cryptexIndices.every((val, i) => val === targetIndices[i]);
+
+            if (isMatch) {
+                document.getElementById('pin-error').classList.add('hidden');
+                playVictoryFanfare();
+                openDiplomaModal();
+            } else {
+                const err = document.getElementById('pin-error');
+                err.classList.remove('hidden');
+                err.innerText = `Combinación incorrecta. Revisa los valores en números romanos: 7 (VII) - 3 (III) - 9 (IX) - 2 (II).`;
+                playTone(150, 0.4);
+            }
+        }
+
+        function openDiplomaModal() {
+            document.getElementById('diploma-player-name').innerText = playerName || "EXPLORADOR/A DE VARIA";
+            
+            const now = new Date();
+            const dateStr = `${now.getDate()} de ${now.toLocaleString('es-ES', { month: 'long' })} de ${now.getFullYear()}`;
+            document.getElementById('diploma-date').innerText = dateStr;
+
+            document.getElementById('diploma-modal').classList.remove('hidden');
+        }
+
+        function closeDiplomaModal() {
+            document.getElementById('diploma-modal').classList.add('hidden');
+        }
+
+        /* ==========================================================================
+           5. MODALS & QR LOGIC
+           ========================================================================== */
+        function openQRScannerModal() {
+            document.getElementById('qr-modal').classList.remove('hidden');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qr-modal').classList.add('hidden');
+        }
+
+        function confirmQRScan() {
+            const sel = document.getElementById('qr-select-location').value;
+            const targetIdx = STATIONS.findIndex(s => s.id === sel);
+
+            if (targetIdx !== -1) {
+                closeQRModal();
+                loadStation(targetIdx);
+                playTone(600, 0.15);
+            }
+        }
+
+        function showInstructions() {
+            document.getElementById('instructions-modal').classList.remove('hidden');
+        }
+
+        function closeInstructions() {
+            document.getElementById('instructions-modal').classList.add('hidden');
+        }
+
+        function restartGame() {
+            collectedDigits = [null, null, null, null];
+            cryptexIndices = [0, 0, 0, 0];
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`digit-slot-${i+1}`).innerText = '?';
+                document.getElementById(`cryptex-${i}`).innerText = 'I';
+            }
+
+            closeDiplomaModal();
+            document.getElementById('stage-victory').classList.add('hidden');
+            document.getElementById('stage-game').classList.add('hidden');
+            document.getElementById('stage-intro').classList.remove('hidden');
+        }
+
+        /* ==========================================================================
+           6. WEB AUDIO SYNTHESIZER
+           ========================================================================== */
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        function toggleAudio() {
+            audioActive = !audioActive;
+            const icon = document.getElementById('audio-icon');
+            if (audioActive) {
+                icon.className = "fa-solid fa-volume-high text-vainilla";
+                getAudioContext().resume();
+                playTone(523, 0.2);
+            } else {
+                icon.className = "fa-solid fa-volume-xmark text-vainilla/50";
+            }
+        }
+
+        function playTone(freq, duration) {
+            if (!audioActive) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio waiting for user interaction");
+            }
+        }
+
+        function playCoinSound() {
+            if (!audioActive) return;
+            [987.77, 1318.51].forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 0.15), idx * 80);
+            });
+        }
+
+        function playLockSound() {
+            if (!audioActive) return;
+            [220, 180, 140].forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 0.2), idx * 100);
+            });
+        }
+
+        function playVictoryFanfare() {
+            if (!audioActive) return;
+            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 0.3), idx * 110);
+            });
+        }
+    </script>
+</body>
+</html>
