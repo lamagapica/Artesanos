@@ -136,10 +136,17 @@
 
             <!-- Header Status & Controls -->
             <div class="flex items-center space-x-3 md:space-x-6">
+                <!-- Badge con Nombre, Dificultad y Cronómetro Activo -->
                 <div id="player-badge" class="hidden text-xs text-vainilla flex items-center gap-2 border-r border-miel/40 pr-3 md:pr-4">
                     <span class="text-miel font-cinzel uppercase hidden sm:inline">Explorador/a:</span>
                     <span id="header-player-name" class="font-bold uppercase tracking-wider text-miel sm:text-vainilla">---</span>
                     <span id="header-difficulty-badge" class="text-[10px] bg-miel/30 border border-miel px-1.5 py-0.5 rounded text-vainilla uppercase font-cinzel">Fácil</span>
+                    
+                    <!-- Cronómetro Visible en Encabezado -->
+                    <div class="flex items-center gap-1 font-mono text-miel bg-caramelo-dark px-2 py-0.5 border border-miel/40 rounded ml-2">
+                        <i class="fa-solid fa-stopwatch text-[10px]"></i>
+                        <span id="header-timer-display" class="font-bold">00:00</span>
+                    </div>
                 </div>
 
                 <!-- Web Audio Toggle -->
@@ -562,6 +569,11 @@
                 <div class="text-left space-y-1">
                     <p class="font-bold uppercase">Fecha de Expedición:</p>
                     <p id="diploma-date" class="text-cafe">---</p>
+
+                    <!-- Tiempo Empleado al lado de la fecha -->
+                    <p class="font-bold uppercase pt-2">Tiempo de Resolución:</p>
+                    <p id="diploma-time-taken" class="text-cafe font-mono font-bold text-sm">--:--</p>
+
                     <p class="text-[10px] text-caramelo/80 italic mt-1">Firma: Petra, Guía de Varea</p>
                 </div>
 
@@ -744,8 +756,42 @@
         let audioActive = false;
         let audioCtx = null;
 
+        // Cronómetro Variables
+        let timerInterval = null;
+        let startTime = null;
+        let finalElapsedTime = "";
+
         /* ==========================================================================
-           2. DIFFICULTY SELECTOR & INITIALIZATION
+           2. TIMER / CRONÓMETRO LOGIC
+           ========================================================================== */
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimerDisplay, 1000);
+            updateTimerDisplay();
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            if (!startTime) return;
+            const elapsedMs = Date.now() - startTime;
+            const totalSeconds = Math.floor(elapsedMs / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('header-timer-display').innerText = formattedTime;
+            finalElapsedTime = formattedTime;
+        }
+
+        /* ==========================================================================
+           3. DIFFICULTY SELECTOR & INITIALIZATION
            ========================================================================== */
         function selectDifficulty(mode) {
             selectedDifficulty = mode;
@@ -776,7 +822,7 @@
         }
 
         /* ==========================================================================
-           3. 360 PANORAMA CANVAS VIEWER
+           4. 360 PANORAMA CANVAS VIEWER
            ========================================================================== */
         let panoCanvas, panoCtx, panoImg;
         let isDraggingPano = false;
@@ -831,7 +877,7 @@
         window.addEventListener('DOMContentLoaded', setupPano360);
 
         /* ==========================================================================
-           4. GAME FLOW ENGINE
+           5. GAME FLOW ENGINE
            ========================================================================== */
         function startGame() {
             const input = document.getElementById('player-name-input');
@@ -849,6 +895,9 @@
 
             document.getElementById('stage-intro').classList.add('hidden');
             document.getElementById('stage-game').classList.remove('hidden');
+
+            // Iniciar Cronómetro
+            startTimer();
 
             loadStation(0);
             playCoinSound();
@@ -1022,7 +1071,7 @@
         }
 
         /* ==========================================================================
-           5. CRYPTEX & TREASURE CHEST UNLOCK
+           6. CRYPTEX & TREASURE CHEST UNLOCK
            ========================================================================== */
         function changeCryptexDigit(idx, dir) {
             cryptexIndices[idx] = (cryptexIndices[idx] + dir + 10) % 10;
@@ -1038,6 +1087,8 @@
 
             if (isMatch) {
                 document.getElementById('pin-error').classList.add('hidden');
+                // Detener Cronómetro al resolver la prueba final
+                stopTimer();
                 playVictoryFanfare();
                 openDiplomaModal();
             } else {
@@ -1056,6 +1107,9 @@
             const dateStr = `${now.getDate()} de ${now.toLocaleString('es-ES', { month: 'long' })} de ${now.getFullYear()}`;
             document.getElementById('diploma-date').innerText = dateStr;
 
+            // Inserción del tiempo final en el diploma
+            document.getElementById('diploma-time-taken').innerText = finalElapsedTime || "00:00";
+
             document.getElementById('diploma-modal').classList.remove('hidden');
         }
 
@@ -1064,7 +1118,7 @@
         }
 
         /* ==========================================================================
-           6. MODALS & QR LOGIC
+           7. MODALS & QR LOGIC
            ========================================================================== */
         function openQRScannerModal() {
             document.getElementById('qr-modal').classList.remove('hidden');
@@ -1094,12 +1148,15 @@
         }
 
         function restartGame() {
+            stopTimer();
             collectedDigits = [null, null, null, null];
             cryptexIndices = [0, 0, 0, 0];
             for (let i = 0; i < 4; i++) {
                 document.getElementById(`digit-slot-${i+1}`).innerText = '?';
                 document.getElementById(`cryptex-${i}`).innerText = 'I';
             }
+
+            document.getElementById('header-timer-display').innerText = "00:00";
 
             closeDiplomaModal();
             document.getElementById('stage-victory').classList.add('hidden');
@@ -1108,7 +1165,7 @@
         }
 
         /* ==========================================================================
-           7. WEB AUDIO SYNTHESIZER
+           8. WEB AUDIO SYNTHESIZER
            ========================================================================== */
         function getAudioContext() {
             if (!audioCtx) {
