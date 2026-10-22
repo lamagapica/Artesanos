@@ -273,10 +273,7 @@
                         <span id="step-4-indicator" class="text-caramelo/50">4. Campamento</span>
                     </div>
 
-                    <button onclick="openQRScannerModal()" class="px-4 py-2 border border-caramelo text-caramelo hover:bg-caramelo hover:text-vainilla transition font-cinzel text-xs font-bold tracking-widest uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-qrcode"></i>
-                        <span>Simular Escaneo QR</span>
-                    </button>
+                    <div class="px-4 py-2 border border-caramelo/40 text-caramelo font-cinzel text-[11px] font-bold tracking-widest uppercase flex items-center gap-2"><i class="fa-solid fa-qrcode"></i><span>Avanza escaneando los QR</span></div>
                 </div>
 
                 <!-- Station Header -->
@@ -421,10 +418,7 @@
                         </div>
                     </div>
 
-                    <button id="btn-next-station" onclick="advanceToNextStation()" disabled 
-                            class="px-8 py-3 text-xs font-cinzel font-bold text-caramelo/40 border border-caramelo/30 uppercase tracking-widest transition cursor-not-allowed">
-                        Siguiente Estación &rarr;
-                    </button>
+                    <div id="advance-area" class="w-full sm:w-auto"></div>
                 </div>
 
             </section>
@@ -507,30 +501,13 @@
     </footer>
 
 
-    <!-- MODAL 1: QR CODE SIMULATOR -->
-    <div id="qr-modal" class="hidden fixed inset-0 z-50 bg-cafe-dark/90 flex items-center justify-center p-4">
+    <!-- MODAL 1: ESTACIÓN BLOQUEADA -->
+    <div id="lock-modal" class="hidden fixed inset-0 z-50 bg-cafe-dark/90 flex items-center justify-center p-4">
         <div class="parchment-sheet roman-border-box max-w-md w-full p-6 text-center space-y-4">
-            <div class="flex justify-between items-center border-b border-caramelo/30 pb-2">
-                <h3 class="font-cinzel text-sm font-bold text-cafe uppercase tracking-wider">Escáner QR del Recorrido</h3>
-                <button onclick="closeQRModal()" class="text-caramelo hover:text-cafe">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <p class="text-xs text-cafe font-sans">
-                Selecciona la señalización escaneada en las calles de Varea:
-            </p>
-
-            <select id="qr-select-location" class="w-full bg-vainilla border-2 border-caramelo text-cafe text-xs p-3 focus:outline-none font-cinzel">
-                <option value="almazara">1. La Almazara (Punto de Inicio)</option>
-                <option value="termas">2. Las Termas (Ubicación: La Carnicería)</option>
-                <option value="artesanos">3. Calle de los Artesanos (Ubicación: El Laberinto)</option>
-                <option value="campamento">4. Campamento Romano (Ubicación: Plaza de la Iglesia)</option>
-            </select>
-
-            <button onclick="confirmQRScan()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs tracking-widest uppercase hover:bg-cafe transition">
-                Acceder a la Estación Escaneada
-            </button>
+            <div class="w-14 h-14 mx-auto border-2 border-caramelo flex items-center justify-center text-caramelo text-2xl bg-miel/20"><i class="fa-solid fa-lock"></i></div>
+            <h3 class="font-cinzel text-sm font-bold text-cafe uppercase tracking-wider">Estación bloqueada</h3>
+            <p id="lock-modal-text" class="text-xs text-cafe font-sans leading-relaxed"></p>
+            <button onclick="closeLockModal()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs tracking-widest uppercase hover:bg-cafe transition">Entendido</button>
         </div>
     </div>
 
@@ -620,7 +597,7 @@
                     <li><strong>Fácil (Niños de Primaria):</strong> Preguntas tipo test con la respuesta explícita en el texto.</li>
                     <li><strong>Difícil (Cultura General):</strong> Preguntas históricas abiertas donde deberás escribir la respuesta correcta.</li>
                 </ul>
-                <p><strong>2. Recorrido Arqueológico:</strong> Puedes escanear los QR en la calle o seguir la app paso a paso.</p>
+                <p><strong>2. Recorrido Arqueológico:</strong> Para pasar a la siguiente estación debes ir al lugar y escanear su cartel QR con la cámara del móvil. La web no te deja avanzar sin escanearlo.</p>
                 <p><strong>3. Las 4 Estaciones:</strong> 1. Almazara &rarr; 2. Termas &rarr; 3. Calle Artesanos &rarr; 4. Campamento Romano.</p>
                 <p><strong>4. Arca Imperial:</strong> Convierte las 4 cifras obtenidas a números romanos (VII - III - IX - II) para abrir el criptex final.</p>
             </div>
@@ -628,6 +605,7 @@
             <button onclick="closeInstructions()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs uppercase tracking-widest hover:bg-cafe transition">
                 Entendido, Continuar Recorrido
             </button>
+            <button onclick="resetProgress()" class="w-full py-2 text-[11px] font-cinzel text-caramelo uppercase tracking-widest hover:text-cafe transition">Empezar de nuevo (borra el progreso)</button>
         </div>
     </div>
 
@@ -898,6 +876,7 @@
 
             // Iniciar Cronómetro
             startTimer();
+            saveState();
 
             loadStation(0);
             playCoinSound();
@@ -954,11 +933,11 @@
             document.getElementById('question-feedback').classList.add('hidden');
             document.getElementById('next-clue-box').classList.add('hidden');
 
-            const nextBtn = document.getElementById('btn-next-station');
-            nextBtn.disabled = true;
-            nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-caramelo/40 border border-caramelo/30 uppercase tracking-widest transition cursor-not-allowed";
-
             updateProgressStepper(index);
+            document.getElementById('hard-text-answer').disabled = false;
+            document.querySelector('#question-input-hard button').disabled = false;
+            if (collectedDigits[index] !== null) showSolvedState(index); else updateAdvanceArea();
+            saveState();
         }
 
         function checkEasyAnswer(isCorrect, digit, romanDigit, buttonEl) {
@@ -1013,9 +992,8 @@
             document.getElementById('station-next-clue').innerText = STATIONS[currentStationIndex].nextClue;
             clueBox.classList.remove('hidden');
 
-            const nextBtn = document.getElementById('btn-next-station');
-            nextBtn.disabled = false;
-            nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-vainilla bg-caramelo hover:bg-cafe uppercase tracking-widest transition cursor-pointer border border-miel shadow-md";
+            updateAdvanceArea();
+            saveState();
         }
 
         function updateProgressStepper(activeIdx) {
@@ -1060,15 +1038,136 @@
             }
         }
 
-        function advanceToNextStation() {
-            if (currentStationIndex < STATIONS.length - 1) {
-                loadStation(currentStationIndex + 1);
+        function openChest() {
+            document.getElementById('stage-game').classList.add('hidden');
+            document.getElementById('stage-victory').classList.remove('hidden');
+            playLockSound();
+            saveState();
+        }
+
+        /* ==========================================================================
+           5b. BLOQUEO POR QR + PROGRESO GUARDADO
+           Cada estación solo se abre escaneando su QR (?e=<token>) y solo si la
+           anterior está resuelta. El progreso se guarda en el móvil (localStorage).
+           ========================================================================== */
+        const STORAGE_KEY = 'vareia_escape_v1';
+        const STATION_TOKENS = ['vr-alm-4k7q9', 'vr-ter-8m2xz', 'vr-art-3w9pd', 'vr-cam-6r1nb'];
+        const STATION_NAMES = ['la Almazara', 'las Termas (la Carnicería)', 'la Calle de los Artesanos (El Laberinto)', 'el Campamento Romano (Plaza de la Iglesia)'];
+        let finished = false;
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ playerName, selectedDifficulty, startTime, collectedDigits, currentStationIndex, finished, finalElapsedTime }));
+            } catch (e) {}
+        }
+
+        function readState() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch (e) { return null; }
+        }
+
+        function resetProgress() {
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            location.href = location.pathname;
+        }
+
+        function lockBox(html) {
+            return `<div class="flex items-center gap-3 border border-caramelo/40 bg-miel/10 px-4 py-3 text-xs text-caramelo font-sans max-w-sm"><i class="fa-solid fa-lock text-base"></i><span>${html}</span></div>`;
+        }
+
+        function updateAdvanceArea() {
+            const area = document.getElementById('advance-area');
+            const i = currentStationIndex;
+            if (collectedDigits[i] === null) {
+                area.innerHTML = lockBox('Resuelve el desafío para desbloquear la pista de la siguiente estación.');
+            } else if (i < STATIONS.length - 1) {
+                area.innerHTML = lockBox(`Siguiente estación bloqueada. Ve hasta <strong>${STATION_NAMES[i + 1]}</strong> y escanea su cartel QR para continuar.`);
             } else {
-                document.getElementById('stage-game').classList.add('hidden');
-                document.getElementById('stage-victory').classList.remove('hidden');
-                playLockSound();
+                area.innerHTML = `<button onclick="openChest()" class="px-8 py-3 text-xs font-cinzel font-bold text-vainilla bg-caramelo hover:bg-cafe uppercase tracking-widest transition border border-miel shadow-md">Abrir el Arca Imperial &rarr;</button>`;
             }
         }
+
+        function showSolvedState(i) {
+            const data = STATIONS[i];
+            const fb = document.getElementById('question-feedback');
+            fb.classList.remove('hidden');
+            fb.className = "pt-2 text-xs font-bold text-caramelo flex items-center gap-2";
+            fb.innerHTML = `<i class="fa-solid fa-circle-check text-green-700 text-sm"></i> <span>Estación superada. Cifra desbloqueada: <strong class="text-sm font-cinzel text-cafe">${data.digit} (${data.romanDigit})</strong></span>`;
+            document.getElementById('station-next-clue').innerText = data.nextClue;
+            document.getElementById('next-clue-box').classList.remove('hidden');
+            document.querySelectorAll('#question-options-easy button').forEach(b => { b.disabled = true; b.classList.add('opacity-60', 'cursor-not-allowed'); });
+            document.getElementById('hard-text-answer').disabled = true;
+            document.querySelector('#question-input-hard button').disabled = true;
+            updateAdvanceArea();
+        }
+
+        function showLockModal(msg) {
+            document.getElementById('lock-modal-text').innerHTML = msg;
+            document.getElementById('lock-modal').classList.remove('hidden');
+            playLockSound();
+        }
+
+        function closeLockModal() {
+            document.getElementById('lock-modal').classList.add('hidden');
+        }
+
+        function resumeGame(saved) {
+            playerName = saved.playerName;
+            selectedDifficulty = saved.selectedDifficulty || 'easy';
+            collectedDigits = Array.isArray(saved.collectedDigits) ? saved.collectedDigits : [null, null, null, null];
+            startTime = saved.startTime || Date.now();
+            finished = !!saved.finished;
+            document.getElementById('header-player-name').innerText = playerName;
+            document.getElementById('header-difficulty-badge').innerText = selectedDifficulty === 'easy' ? 'Fácil (Primaria)' : 'Difícil (Cultura)';
+            document.getElementById('player-badge').classList.remove('hidden');
+            collectedDigits.forEach((d, i) => { if (d !== null) document.getElementById(`digit-slot-${i + 1}`).innerText = d; });
+            document.getElementById('stage-intro').classList.add('hidden');
+            if (finished) {
+                finalElapsedTime = saved.finalElapsedTime || '00:00';
+                document.getElementById('header-timer-display').innerText = finalElapsedTime;
+                document.getElementById('stage-victory').classList.remove('hidden');
+            } else {
+                document.getElementById('stage-game').classList.remove('hidden');
+                timerInterval = setInterval(updateTimerDisplay, 1000);
+                updateTimerDisplay();
+            }
+        }
+
+        function initFromUrl() {
+            const token = new URLSearchParams(location.search).get('e');
+            const targetIdx = token ? STATION_TOKENS.indexOf(token) : -1;
+            if (token) history.replaceState(null, '', location.pathname);
+
+            const saved = readState();
+            const hasGame = !!(saved && saved.playerName);
+
+            if (!hasGame) {
+                if (token && targetIdx === -1) {
+                    showLockModal('Este código QR no pertenece a la aventura. Busca los carteles oficiales del recorrido por Varea.');
+                } else if (targetIdx > 0) {
+                    showLockModal('Esta estación está bloqueada. La aventura empieza en la Almazara: escanea primero su QR e inscribe tu nombre.');
+                }
+                return;
+            }
+
+            resumeGame(saved);
+            if (finished) return;
+
+            const firstUnsolved = collectedDigits.findIndex(d => d === null);
+            const reachable = firstUnsolved === -1 ? STATIONS.length - 1 : firstUnsolved;
+            if (token && targetIdx === -1) {
+                loadStation(Math.min(saved.currentStationIndex || 0, reachable));
+                showLockModal('Este código QR no pertenece a la aventura. Busca los carteles oficiales del recorrido por Varea.');
+            } else if (targetIdx !== -1 && targetIdx > reachable) {
+                loadStation(reachable);
+                showLockModal(`Todavía no puedes entrar a esta estación. Primero resuelve la estación ${reachable + 1} (${STATION_NAMES[reachable]}).`);
+            } else if (targetIdx !== -1) {
+                loadStation(targetIdx);
+            } else {
+                loadStation(Math.min(saved.currentStationIndex || 0, reachable));
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initFromUrl);
 
         /* ==========================================================================
            6. CRYPTEX & TREASURE CHEST UNLOCK
@@ -1089,6 +1188,8 @@
                 document.getElementById('pin-error').classList.add('hidden');
                 // Detener Cronómetro al resolver la prueba final
                 stopTimer();
+                finished = true;
+                saveState();
                 playVictoryFanfare();
                 openDiplomaModal();
             } else {
@@ -1120,25 +1221,7 @@
         /* ==========================================================================
            7. MODALS & QR LOGIC
            ========================================================================== */
-        function openQRScannerModal() {
-            document.getElementById('qr-modal').classList.remove('hidden');
-        }
-
-        function closeQRModal() {
-            document.getElementById('qr-modal').classList.add('hidden');
-        }
-
-        function confirmQRScan() {
-            const sel = document.getElementById('qr-select-location').value;
-            const targetIdx = STATIONS.findIndex(s => s.id === sel);
-
-            if (targetIdx !== -1) {
-                closeQRModal();
-                loadStation(targetIdx);
-                playTone(600, 0.15);
-            }
-        }
-
+        
         function showInstructions() {
             document.getElementById('instructions-modal').classList.remove('hidden');
         }
@@ -1149,6 +1232,9 @@
 
         function restartGame() {
             stopTimer();
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            finished = false; startTime = null; finalElapsedTime = ""; currentStationIndex = 0;
+            document.getElementById('player-badge').classList.add('hidden');
             collectedDigits = [null, null, null, null];
             cryptexIndices = [0, 0, 0, 0];
             for (let i = 0; i < 4; i++) {
