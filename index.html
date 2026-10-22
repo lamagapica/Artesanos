@@ -6,11 +6,11 @@
     <title>El Secreto de Varia - El Tesoro de Uara</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonts: Inter for readable body text, Cinzel & Marcellus for Roman titles -->
+    <!-- Fonts: Inter for body, Cinzel & Marcellus for Roman stylistic headings -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons (No emojis allowed) -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <script>
@@ -48,7 +48,7 @@
             min-height: 100vh;
         }
 
-        /* CONTINUOUS PARCHMENT SURFACE (NO WHITE/BOX CARDS) */
+        /* CONTINUOUS PARCHMENT SURFACE */
         .parchment-sheet {
             background-color: #E7C196;
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 245, 225, 0.75) 0%, rgba(231, 193, 150, 0.95) 100%);
@@ -119,7 +119,7 @@
 
     <!-- HEADER NAVIGATION BAR -->
     <header class="relative z-20 bg-cafe-dark border-b-2 border-miel px-4 md:px-8 py-4 text-vainilla">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="max-w-6xl mx-auto flex justify-between items-center flex-wrap gap-2">
             
             <!-- Logo & Title -->
             <div class="flex items-center space-x-3">
@@ -130,15 +130,16 @@
                     <h1 class="font-cinzel text-base md:text-xl font-bold tracking-widest uppercase text-vainilla">
                         El Secreto de Varia
                     </h1>
-                    <p class="text-[11px] font-roman text-miel tracking-wider">Escape Room en Busca del Tesoro de Uara</p>
+                    <p class="text-[11px] font-roman text-miel tracking-wider">Escape Room Arqueológico • Varea (Logroño)</p>
                 </div>
             </div>
 
             <!-- Header Status & Controls -->
-            <div class="flex items-center space-x-4 md:space-x-6">
-                <div id="player-badge" class="hidden text-xs text-vainilla flex items-center gap-2 border-r border-miel/40 pr-4">
-                    <span class="text-miel font-cinzel uppercase">Explorador/a:</span>
-                    <span id="header-player-name" class="font-bold uppercase tracking-wider">---</span>
+            <div class="flex items-center space-x-3 md:space-x-6">
+                <div id="player-badge" class="hidden text-xs text-vainilla flex items-center gap-2 border-r border-miel/40 pr-3 md:pr-4">
+                    <span class="text-miel font-cinzel uppercase hidden sm:inline">Explorador/a:</span>
+                    <span id="header-player-name" class="font-bold uppercase tracking-wider text-miel sm:text-vainilla">---</span>
+                    <span id="header-difficulty-badge" class="text-[10px] bg-miel/30 border border-miel px-1.5 py-0.5 rounded text-vainilla uppercase font-cinzel">Fácil</span>
                 </div>
 
                 <!-- Web Audio Toggle -->
@@ -162,7 +163,7 @@
         
         <div class="parchment-sheet roman-border-box p-6 md:p-12 space-y-8 shadow-2xl">
             
-            <!-- STAGE 1: WELCOME & PLAYER NAME INPUT -->
+            <!-- STAGE 1: WELCOME, DIFFICULTY SELECTION & PLAYER NAME INPUT -->
             <section id="stage-intro" class="space-y-8">
                 
                 <div class="text-center space-y-3">
@@ -181,16 +182,59 @@
                         «Mi nombre es Petra y soy una joven romana de Vareia. ¡Tenemos una misión urgente!»
                     </p>
                     <p>
-                        Bienvenido a Vareia. Estás pisando el suelo donde hace dos mil años la Legio IV Macedonica levantó su campamento militar. A través de este mapa interactivo, viajarás en el tiempo para recuperar la Fálera de Marte, una medalla militar de valor incalculable que desapareció durante las Guerras Cántabras. Tu guía en este viaje será Petra, la hija del escriba del campamento.
+                        Bienvenido a Vareia. Estás pisando el suelo donde hace dos mil años la Legio IV Macedonica levantó su campamento militar. A través de este mapa interactivo, viajarás en el tiempo para recuperar el Tesoro de Uara, oculto tras la marcha de las legiones romanas.
                     </p>
                     <p>
-                        ¡Los centuriones están a punto de marchar y levantar el campamento instalado en las actuales calles Martín Zurbano y Frontón! Debemos seguir el mapa por los rincones de Varea, superar los 4 enigmas y conseguir las 4 cifras del candado imperial antes de que sea tarde.
+                        ¡Debemos seguir el mapa por los rincones de Varea, superar los 4 enigmas y conseguir las 4 cifras del candado imperial antes de que sea demasiado tarde!
                     </p>
                 </div>
 
-                <!-- Name Input Box -->
-                <div class="max-w-md mx-auto space-y-4 pt-4 text-center">
-                    <div class="space-y-2">
+                <!-- Form Controls: Difficulty & Name -->
+                <div class="max-w-xl mx-auto space-y-6 pt-4">
+                    
+                    <!-- Difficulty Selector Cards -->
+                    <div class="space-y-3">
+                        <label class="block font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest text-center">
+                            Elige tu Nivel de Dificultad:
+                        </label>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Easy Option -->
+                            <div id="card-diff-easy" onclick="selectDifficulty('easy')" class="cursor-pointer border-2 border-caramelo p-4 bg-vainilla hover:bg-miel/20 transition space-y-2 text-left relative">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-cinzel font-bold text-sm text-cafe flex items-center gap-2">
+                                        <i class="fa-solid fa-child text-miel"></i> Versión Fácil
+                                    </span>
+                                    <span class="text-[10px] uppercase font-bold bg-caramelo text-vainilla px-2 py-0.5">Primaria</span>
+                                </div>
+                                <p class="text-xs text-cafe/80 leading-snug">
+                                    Preguntas con opciones (A, B, C). La respuesta exacta se encuentra escrita en el texto de Petra de cada estación.
+                                </p>
+                                <div id="radio-easy" class="w-4 h-4 rounded-full border-2 border-caramelo bg-caramelo absolute top-3 right-3 flex items-center justify-center">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-vainilla"></div>
+                                </div>
+                            </div>
+
+                            <!-- Hard Option -->
+                            <div id="card-diff-hard" onclick="selectDifficulty('hard')" class="cursor-pointer border-2 border-caramelo/40 p-4 bg-vainilla/50 hover:bg-miel/20 transition space-y-2 text-left relative opacity-80">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-cinzel font-bold text-sm text-cafe flex items-center gap-2">
+                                        <i class="fa-solid fa-brain text-miel"></i> Versión Difícil
+                                    </span>
+                                    <span class="text-[10px] uppercase font-bold bg-cafe text-miel px-2 py-0.5">Cultura General</span>
+                                </div>
+                                <p class="text-xs text-cafe/80 leading-snug">
+                                    Preguntas de historia romana y arqueología. La respuesta NO está en el texto: debes escribirla tú mismo.
+                                </p>
+                                <div id="radio-hard" class="w-4 h-4 rounded-full border-2 border-caramelo/50 absolute top-3 right-3 flex items-center justify-center">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-transparent"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Name Input Box -->
+                    <div class="space-y-2 text-center">
                         <label for="player-name-input" class="block font-cinzel text-xs font-bold text-caramelo uppercase tracking-widest">
                             Inscribe tu Nombre en el Pergamino del Explorador:
                         </label>
@@ -198,8 +242,8 @@
                                class="w-full bg-vainilla border-2 border-caramelo px-4 py-3 text-cafe font-bold text-center text-lg focus:outline-none focus:border-miel transition rounded-none">
                     </div>
 
-                    <button onclick="startGame()" class="w-full py-4 bg-caramelo text-vainilla font-cinzel font-bold text-sm tracking-widest uppercase hover:bg-cafe transition border border-miel flex items-center justify-center gap-3">
-                        <i class="fa-solid fa-compass"></i>
+                    <button onclick="startGame()" class="w-full py-4 bg-caramelo text-vainilla font-cinzel font-bold text-sm tracking-widest uppercase hover:bg-cafe transition border border-miel flex items-center justify-center gap-3 shadow-lg">
+                        <i class="fa-solid fa-compass text-miel"></i>
                         <span>Iniciar Misión con Petra</span>
                     </button>
                 </div>
@@ -299,7 +343,7 @@
                         <div class="space-y-2 border-l-4 border-caramelo pl-4">
                             <h3 class="font-cinzel text-xs uppercase tracking-widest text-caramelo font-bold flex items-center gap-2">
                                 <i class="fa-solid fa-scroll"></i>
-                                <span>Mensaje de Petra:</span>
+                                <span>Relato de Petra:</span>
                             </h3>
                             <p id="station-history-text" class="text-xs md:text-sm text-cafe leading-relaxed font-sans italic">
                                 Carga de la narrativa histórica...
@@ -308,17 +352,35 @@
 
                         <!-- Interactive Question Box -->
                         <div id="riddle-box" class="space-y-3 pt-2 border-t border-caramelo/20">
-                            <h4 class="font-cinzel text-xs uppercase tracking-widest text-caramelo font-bold flex items-center gap-2">
-                                <i class="fa-solid fa-key"></i>
-                                <span>Desafío del Códice:</span>
-                            </h4>
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-cinzel text-xs uppercase tracking-widest text-caramelo font-bold flex items-center gap-2">
+                                    <i class="fa-solid fa-key"></i>
+                                    <span>Desafío del Códice:</span>
+                                </h4>
+                                <span id="difficulty-indicator-tag" class="text-[10px] font-cinzel font-bold px-2 py-0.5 bg-caramelo text-vainilla rounded">MODO FÁCIL</span>
+                            </div>
+                            
                             <p id="station-question" class="text-xs md:text-sm text-cafe font-semibold">
                                 Pregunta de la estación...
                             </p>
 
-                            <!-- Question Options -->
-                            <div id="question-options" class="space-y-2 pt-1">
+                            <!-- Question Options container for EASY mode -->
+                            <div id="question-options-easy" class="space-y-2 pt-1">
                                 <!-- Dynamic Buttons -->
+                            </div>
+
+                            <!-- Question Input container for HARD mode -->
+                            <div id="question-input-hard" class="hidden space-y-3 pt-1">
+                                <p class="text-[11px] text-caramelo font-sans italic">
+                                    Escribe tu respuesta a continuación y pulsa "Verificar":
+                                </p>
+                                <div class="flex gap-2">
+                                    <input type="text" id="hard-text-answer" placeholder="Escribe tu respuesta..." 
+                                           class="w-full bg-vainilla border-2 border-caramelo px-3 py-2 text-cafe text-xs font-bold focus:outline-none focus:border-miel">
+                                    <button onclick="checkHardAnswer()" class="px-4 py-2 bg-caramelo text-vainilla font-cinzel font-bold text-xs uppercase hover:bg-cafe transition border border-miel">
+                                        Verificar
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Feedback Message -->
@@ -379,12 +441,12 @@
                 </div>
 
                 <!-- 4 Rotators in Roman Numerals -->
-                <div class="flex justify-center items-center gap-3 py-6">
+                <div class="flex justify-center items-center gap-2 sm:gap-4 py-6">
                     
                     <!-- Rotator 1 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(0, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
-                        <div id="cryptex-0" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
+                        <div id="cryptex-0" class="cryptex-digit w-14 sm:w-16 h-16 sm:h-20 text-xl sm:text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(0, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
                         <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 1 (7)</span>
                     </div>
@@ -392,7 +454,7 @@
                     <!-- Rotator 2 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(1, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
-                        <div id="cryptex-1" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
+                        <div id="cryptex-1" class="cryptex-digit w-14 sm:w-16 h-16 sm:h-20 text-xl sm:text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(1, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
                         <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 2 (3)</span>
                     </div>
@@ -400,7 +462,7 @@
                     <!-- Rotator 3 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(2, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
-                        <div id="cryptex-2" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
+                        <div id="cryptex-2" class="cryptex-digit w-14 sm:w-16 h-16 sm:h-20 text-xl sm:text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(2, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
                         <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 3 (9)</span>
                     </div>
@@ -408,7 +470,7 @@
                     <!-- Rotator 4 -->
                     <div class="flex flex-col items-center">
                         <button onclick="changeCryptexDigit(3, 1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-up"></i></button>
-                        <div id="cryptex-3" class="cryptex-digit w-16 h-20 text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
+                        <div id="cryptex-3" class="cryptex-digit w-14 sm:w-16 h-16 sm:h-20 text-xl sm:text-2xl font-cinzel font-bold flex items-center justify-center border-2 border-miel shadow-md">I</div>
                         <button onclick="changeCryptexDigit(3, -1)" class="text-caramelo hover:text-cafe text-sm py-1"><i class="fa-solid fa-chevron-down"></i></button>
                         <span class="text-[10px] font-cinzel text-caramelo mt-1">Cifra 4 (2)</span>
                     </div>
@@ -468,7 +530,7 @@
 
     <!-- MODAL 2: PRINTABLE DIPLOMA IMPERIAL -->
     <div id="diploma-modal" class="hidden fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="max-w-3xl w-full p-8 md:p-14 text-center border-8 border-caramelo bg-vainilla text-cafe space-y-6 my-8 relative shadow-2xl">
+        <div class="max-w-3xl w-full p-6 md:p-14 text-center border-8 border-caramelo bg-vainilla text-cafe space-y-6 my-8 relative shadow-2xl">
             
             <div class="no-print flex justify-end">
                 <button onclick="closeDiplomaModal()" class="text-caramelo hover:text-cafe">
@@ -480,7 +542,7 @@
                 SENATVS POPVLVSQVE ROMANVS • VAREIA IMPERIAL
             </span>
             
-            <h1 class="font-cinzel text-3xl md:text-5xl font-black text-cafe border-b-2 border-caramelo pb-4 tracking-wider uppercase">
+            <h1 class="font-cinzel text-2xl md:text-5xl font-black text-cafe border-b-2 border-caramelo pb-4 tracking-wider uppercase">
                 DIPLOMA IMPERIAL DE EXPLORADOR/A
             </h1>
 
@@ -488,35 +550,35 @@
                 Con la bendición del General de la Legión IV Macedónica y el testimonio de Petra, se otorga a:
             </p>
 
-            <div id="diploma-player-name" class="font-roman text-3xl md:text-5xl text-caramelo font-bold py-3 border-y-2 border-caramelo uppercase tracking-widest">
+            <div id="diploma-player-name" class="font-roman text-2xl md:text-4xl text-caramelo font-bold py-3 border-y-2 border-caramelo uppercase tracking-widest">
                 EXPLORADOR/A
             </div>
 
             <p class="text-xs md:text-sm text-cafe leading-relaxed max-w-xl mx-auto font-sans">
-                Por haber superado los 4 enigmas del recorrido de Varea, rescatando el <strong>Tesoro de Uara</strong> y protegiendo la tésera de hospitalidad que une a los antiguos berones de La Custodia con la ilustre Varia romana.
+                Por haber superado los 4 enigmas del recorrido de Varea (en modalidad <strong id="diploma-difficulty-name">Fácil</strong>), rescatando el <strong>Tesoro de Uara</strong> y protegiendo el legado histórico que une a los antiguos berones con la ilustre Varia romana.
             </p>
 
-            <div class="flex justify-between items-end pt-8 border-t border-caramelo/40 text-xs font-cinzel text-caramelo">
+            <div class="flex justify-between items-end pt-8 border-t border-caramelo/40 text-xs font-cinzel text-caramelo flex-wrap gap-4">
                 <div class="text-left space-y-1">
                     <p class="font-bold uppercase">Fecha de Expedición:</p>
-                    <p id="diploma-date" class="text-cafe">XX de Octubre</p>
-                    <p class="text-[10px] text-caramelo/80 italic mt-1">Firma: Petra, Exploradora de Varea</p>
+                    <p id="diploma-date" class="text-cafe">---</p>
+                    <p class="text-[10px] text-caramelo/80 italic mt-1">Firma: Petra, Guía de Varea</p>
                 </div>
 
                 <!-- Roman Imperial Seal Replica -->
-                <div class="w-20 h-20 rounded-full bg-caramelo text-vainilla flex flex-col items-center justify-center font-cinzel font-bold text-xs border-4 border-miel shadow-inner">
+                <div class="w-20 h-20 rounded-full bg-caramelo text-vainilla flex flex-col items-center justify-center font-cinzel font-bold text-xs border-4 border-miel shadow-inner mx-auto sm:mx-0">
                     <span>LEGIO IV</span>
                     <span class="text-[9px]">MACEDONICA</span>
                 </div>
 
-                <div class="text-right space-y-1">
+                <div class="text-right space-y-1 w-full sm:w-auto">
                     <p class="font-bold uppercase">Lugar del Hallazgo:</p>
                     <p class="text-cafe">Varia (Varea, Logroño)</p>
                     <p class="text-[10px] text-caramelo/80 italic mt-1">Plaza de la Iglesia</p>
                 </div>
             </div>
 
-            <div class="no-print pt-6 flex justify-center gap-4">
+            <div class="no-print pt-6 flex justify-center gap-4 flex-wrap">
                 <button onclick="window.print()" class="px-8 py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs uppercase tracking-widest hover:bg-cafe transition flex items-center gap-2">
                     <i class="fa-solid fa-print"></i>
                     <span>Imprimir Diploma Imperial</span>
@@ -541,15 +603,14 @@
             </div>
 
             <div class="space-y-3 text-xs leading-relaxed text-cafe font-sans">
-                <p><strong>1. Recorrido Híbrido:</strong> Escanea los códigos QR en cada punto de Varea o avanza estación a estación en esta guía interactiva.</p>
-                <p><strong>2. Orden de la Misión:</strong></p>
-                <ol class="list-decimal list-inside space-y-1 text-caramelo font-semibold pl-2">
-                    <li>Almazara (Punto de inicio)</li>
-                    <li>Termas (En La Carnicería)</li>
-                    <li>Calle de los Artesanos (En El Laberinto)</li>
-                    <li>Campamento Romano (En la Plaza de la Iglesia)</li>
-                </ol>
-                <p><strong>3. Arca del Legado:</strong> Convierte las 4 cifras conseguidas a números romanos (VII - III - IX - II) para abrir el Criptex final.</p>
+                <p><strong>1. Modalidades de Juego:</strong></p>
+                <ul class="list-disc list-inside text-caramelo font-semibold pl-2 space-y-1">
+                    <li><strong>Fácil (Niños de Primaria):</strong> Preguntas tipo test con la respuesta explícita en el texto.</li>
+                    <li><strong>Difícil (Cultura General):</strong> Preguntas históricas abiertas donde deberás escribir la respuesta correcta.</li>
+                </ul>
+                <p><strong>2. Recorrido Arqueológico:</strong> Puedes escanear los QR en la calle o seguir la app paso a paso.</p>
+                <p><strong>3. Las 4 Estaciones:</strong> 1. Almazara &rarr; 2. Termas &rarr; 3. Calle Artesanos &rarr; 4. Campamento Romano.</p>
+                <p><strong>4. Arca Imperial:</strong> Convierte las 4 cifras obtenidas a números romanos (VII - III - IX - II) para abrir el criptex final.</p>
             </div>
 
             <button onclick="closeInstructions()" class="w-full py-3 bg-caramelo text-vainilla font-cinzel font-bold text-xs uppercase tracking-widest hover:bg-cafe transition">
@@ -562,7 +623,7 @@
     <!-- JAVASCRIPT GAME ENGINE -->
     <script>
         /* ==========================================================================
-           1. STATIONS DATA (EXACT USER SPECIFICATIONS & NARRATIVE MISTERIO)
+           1. STATIONS DATA WITH DUAL DIFFICULTY (EASY & HARD)
            ========================================================================== */
         const STATIONS = [
             {
@@ -570,12 +631,20 @@
                 title: '1. La Almazara Romana',
                 location: 'Ubicación actual: Punto Arqueológico Almazara',
                 history: '«¡Hola! Soy Petra. Bienvenidos a la antigua Almazara. Aquí prensábamos las aceitunas recolectadas junto al río Ebro para obtener el preciado aceite de oliva de Varia. El General de la Legión IV ha escondido aquí la primera pista para localizar el Tesoro de Uara».',
-                question: '¿Qué valioso líquido dorado elaborado en muelas de piedra prensaban los romanos en la Almazara de Varea?',
-                options: [
+                
+                // EASY MODE DATA
+                easyQuestion: '¿Qué valioso líquido dorado elaborado en muelas de piedra prensaban los romanos en la Almazara de Varea?',
+                easyOptions: [
                     { text: 'A) El aceite de oliva virgen de Varia', correct: true },
                     { text: 'B) Jarabe de miel y moras', correct: false },
                     { text: 'C) Perfume de rosas importado de Roma', correct: false }
                 ],
+
+                // HARD MODE DATA
+                hardQuestion: 'Además del aceite de oliva, ¿cuáles eran los otros dos productos fundamentales que componían la llamada "Tríada Mediterránea" en la alimentación y economía de la Antigua Roma?',
+                hardKeywords: ['trigo', 'vino', 'pan'], // Must contain keywords to pass
+                hardHint: 'Pista: Uno sirve para hacer pan y el otro es la bebida sagrada de Baco.',
+
                 digit: '7',
                 romanDigit: 'VII',
                 nextClue: '«¡Muy bien hecho! Habéis conseguido la Cifra 1: VII (7). Para la siguiente pista: Debéis ir a Las Termas, que en la Varea actual se encuentran donde la Carnicería».',
@@ -588,12 +657,20 @@
                 title: '2. Las Termas Romanas',
                 location: 'Ubicación actual: La Carnicería',
                 history: '«¡Habéis encontrado el lugar exacto donde estuvo La Carnicería! Bajo nuestros pies se ubican las canalizaciones de las antiguas Termas Romanas. El agua tibia del Caldarium relajaba a los soldados de la Legio IV Macedónica tras sus patrullas».',
-                question: '¿Cómo llamaban los romanos a la sala de agua caliente con horno subterráneo (hipocausto) en las Termas?',
-                options: [
+                
+                // EASY MODE DATA
+                easyQuestion: '¿Cómo llamaban los romanos a la sala de agua caliente con horno subterráneo (hipocausto) en las Termas?',
+                easyOptions: [
                     { text: 'A) Caldarium', correct: true },
                     { text: 'B) Frigidarium', correct: false },
                     { text: 'C) Natatio', correct: false }
                 ],
+
+                // HARD MODE DATA
+                hardQuestion: 'En las termas romanas tradicionales, ¿cómo se llamaban respectivamente la sección de agua fría y la piscina descubierta para nadar?',
+                hardKeywords: ['frigidarium', 'natatio', 'fria'],
+                hardHint: 'Pista: Piensa en palabras como "Frigidarium" o "Natatio".',
+
                 digit: '3',
                 romanDigit: 'III',
                 nextClue: '«¡Fantástico! Ya tenéis la Cifra 2: III (3). Escuchad la pista de Petra: Avanzad hacia la Calle de los Artesanos, que hoy se oculta donde está El Laberinto».',
@@ -606,12 +683,20 @@
                 title: '3. Calle de los Artesanos',
                 location: 'Ubicación actual: El Laberinto',
                 history: '«¡Excelente orientación! Habéis llegado a El Laberinto. En época romana, esta calle hervía de actividad con alfareros moldeando la famosa vajilla roja de cerámica Terra Sigillata decorada con sellos únicos».',
-                question: '¿Qué tipo de cotizada cerámica romana de color rojo brillante se moldeaba en los talleres de artesanía de Varia?',
-                options: [
+                
+                // EASY MODE DATA
+                easyQuestion: '¿Qué tipo de cotizada cerámica romana de color rojo brillante se moldeaba en los talleres de artesanía de Varia?',
+                easyOptions: [
                     { text: 'A) Ceramica Terra Sigillata con sellos', correct: true },
                     { text: 'B) Porcelana china dorada', correct: false },
                     { text: 'C) Azulejos de cristal azul', correct: false }
                 ],
+
+                // HARD MODE DATA
+                hardQuestion: '¿En qué ciudad de la península itálica (Etruria) se originó la famosa técnica de cerámica estampada "Terra Sigillata" fabricada en Varea?',
+                hardKeywords: ['arezzo', 'arretium', 'etruria', 'italia', 'toscana'],
+                hardHint: 'Pista: La ciudad italiana es Arezzo (antigua Arretium).',
+
                 digit: '9',
                 romanDigit: 'IX',
                 nextClue: '«¡Sois imparables! Lograsteis la Cifra 3: IX (9). La última pista dice: Buscad el antiguo Campamento Romano de la Legión IV Macedónica, situado en la Plaza de la Iglesia».',
@@ -624,12 +709,20 @@
                 title: '4. Campamento Romano',
                 location: 'Ubicación actual: Plaza de la Iglesia',
                 history: '«¡Habéis alcanzado la Plaza de la Iglesia! Aquí estuvo la sede principal del campamento militar romano levantado por la Legio IV Macedónica durante las Guerras Cántabras. ¡El Arca con el Tesoro de Uara está esperándonos!»',
-                question: '¿Cuál era el símbolo sagrado del estandarte militar legionarios que custodiaba el campamento romano?',
-                options: [
+                
+                // EASY MODE DATA
+                easyQuestion: '¿Cuál era el símbolo sagrado del estandarte militar legionario que custodiaba el campamento romano?',
+                easyOptions: [
                     { text: 'A) El Águila Imperial (Aquila)', correct: true },
                     { text: 'B) El León de Ordes', correct: false },
                     { text: 'C) El Delfín del Ebro', correct: false }
                 ],
+
+                // HARD MODE DATA
+                hardQuestion: '¿Bajo el mandato de qué primer Emperador romano se libraron las Guerras Cántabras en las que intervino la Legio IV Macedonica asentada en Varea?',
+                hardKeywords: ['augusto', 'cesar augusto', 'octavio', 'octavio augusto'],
+                hardHint: 'Pista: Es el primer emperador de Roma, cuyo nombre lleva también un mes del año.',
+
                 digit: '2',
                 romanDigit: 'II',
                 nextClue: '«¡Teníamos razón! Cifra 4 obtenida: II (2). ¡Acompañad a Petra a introducir el código completo 7-3-9-2 en números romanos (VII - III - IX - II) en el Criptex!»',
@@ -644,6 +737,7 @@
 
         // Global State Variables
         let playerName = "";
+        let selectedDifficulty = "easy"; // "easy" or "hard"
         let currentStationIndex = 0;
         let collectedDigits = [null, null, null, null];
         let cryptexIndices = [0, 0, 0, 0]; // Index 0 = 'I'
@@ -651,7 +745,38 @@
         let audioCtx = null;
 
         /* ==========================================================================
-           2. 360 PANORAMA CANVAS VIEWER
+           2. DIFFICULTY SELECTOR & INITIALIZATION
+           ========================================================================== */
+        function selectDifficulty(mode) {
+            selectedDifficulty = mode;
+            const cardEasy = document.getElementById('card-diff-easy');
+            const cardHard = document.getElementById('card-diff-hard');
+            const radioEasy = document.getElementById('radio-easy');
+            const radioHard = document.getElementById('radio-hard');
+
+            if (mode === 'easy') {
+                cardEasy.className = "cursor-pointer border-2 border-caramelo p-4 bg-vainilla hover:bg-miel/20 transition space-y-2 text-left relative shadow-md";
+                cardHard.className = "cursor-pointer border-2 border-caramelo/40 p-4 bg-vainilla/50 hover:bg-miel/20 transition space-y-2 text-left relative opacity-70";
+                
+                radioEasy.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-vainilla"></div>';
+                radioEasy.className = "w-4 h-4 rounded-full border-2 border-caramelo bg-caramelo absolute top-3 right-3 flex items-center justify-center";
+                
+                radioHard.innerHTML = '';
+                radioHard.className = "w-4 h-4 rounded-full border-2 border-caramelo/50 absolute top-3 right-3 flex items-center justify-center";
+            } else {
+                cardHard.className = "cursor-pointer border-2 border-caramelo p-4 bg-vainilla hover:bg-miel/20 transition space-y-2 text-left relative shadow-md";
+                cardEasy.className = "cursor-pointer border-2 border-caramelo/40 p-4 bg-vainilla/50 hover:bg-miel/20 transition space-y-2 text-left relative opacity-70";
+                
+                radioHard.innerHTML = '<div class="w-1.5 h-1.5 rounded-full bg-vainilla"></div>';
+                radioHard.className = "w-4 h-4 rounded-full border-2 border-caramelo bg-caramelo absolute top-3 right-3 flex items-center justify-center";
+                
+                radioEasy.innerHTML = '';
+                radioEasy.className = "w-4 h-4 rounded-full border-2 border-caramelo/50 absolute top-3 right-3 flex items-center justify-center";
+            }
+        }
+
+        /* ==========================================================================
+           3. 360 PANORAMA CANVAS VIEWER
            ========================================================================== */
         let panoCanvas, panoCtx, panoImg;
         let isDraggingPano = false;
@@ -706,7 +831,7 @@
         window.addEventListener('DOMContentLoaded', setupPano360);
 
         /* ==========================================================================
-           3. GAME FLOW ENGINE
+           4. GAME FLOW ENGINE
            ========================================================================== */
         function startGame() {
             const input = document.getElementById('player-name-input');
@@ -719,6 +844,7 @@
 
             playerName = name;
             document.getElementById('header-player-name').innerText = playerName;
+            document.getElementById('header-difficulty-badge').innerText = selectedDifficulty === 'easy' ? 'Fácil (Primaria)' : 'Difícil (Cultura)';
             document.getElementById('player-badge').classList.remove('hidden');
 
             document.getElementById('stage-intro').classList.add('hidden');
@@ -736,7 +862,6 @@
             document.getElementById('station-title').innerText = data.title;
             document.getElementById('station-location-badge').innerText = data.location;
             document.getElementById('station-history-text').innerText = data.history;
-            document.getElementById('station-question').innerText = data.question;
 
             document.getElementById('img-roman').src = data.imgRoman;
             document.getElementById('img-actual').src = data.imgActual;
@@ -745,16 +870,37 @@
             updateSlider(50);
             document.getElementById('time-slider').value = 50;
 
-            const optsContainer = document.getElementById('question-options');
-            optsContainer.innerHTML = '';
+            // Render Questions according to Difficulty
+            const tag = document.getElementById('difficulty-indicator-tag');
+            const easyContainer = document.getElementById('question-options-easy');
+            const hardContainer = document.getElementById('question-input-hard');
 
-            data.options.forEach((opt) => {
-                const btn = document.createElement('button');
-                btn.className = "w-full py-3 px-4 text-left text-xs md:text-sm font-sans text-cafe border border-caramelo/40 bg-vainilla hover:bg-miel/20 hover:border-caramelo transition flex justify-between items-center";
-                btn.innerHTML = `<span>${opt.text}</span>`;
-                btn.onclick = () => checkAnswer(opt.correct, data.digit, data.romanDigit, btn);
-                optsContainer.appendChild(btn);
-            });
+            if (selectedDifficulty === 'easy') {
+                tag.innerText = "MODO FÁCIL (PRIMARIA)";
+                tag.className = "text-[10px] font-cinzel font-bold px-2 py-0.5 bg-caramelo text-vainilla rounded";
+                document.getElementById('station-question').innerText = data.easyQuestion;
+
+                easyContainer.classList.remove('hidden');
+                hardContainer.classList.add('hidden');
+                easyContainer.innerHTML = '';
+
+                data.easyOptions.forEach((opt) => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full py-3 px-4 text-left text-xs md:text-sm font-sans text-cafe border border-caramelo/40 bg-vainilla hover:bg-miel/20 hover:border-caramelo transition flex justify-between items-center";
+                    btn.innerHTML = `<span>${opt.text}</span>`;
+                    btn.onclick = () => checkEasyAnswer(opt.correct, data.digit, data.romanDigit, btn);
+                    easyContainer.appendChild(btn);
+                });
+
+            } else {
+                tag.innerText = "MODO DIFÍCIL (CULTURA GENERAL)";
+                tag.className = "text-[10px] font-cinzel font-bold px-2 py-0.5 bg-cafe text-miel border border-miel rounded";
+                document.getElementById('station-question').innerText = data.hardQuestion;
+
+                easyContainer.classList.add('hidden');
+                hardContainer.classList.remove('hidden');
+                document.getElementById('hard-text-answer').value = '';
+            }
 
             document.getElementById('question-feedback').classList.add('hidden');
             document.getElementById('next-clue-box').classList.add('hidden');
@@ -764,6 +910,63 @@
             nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-caramelo/40 border border-caramelo/30 uppercase tracking-widest transition cursor-not-allowed";
 
             updateProgressStepper(index);
+        }
+
+        function checkEasyAnswer(isCorrect, digit, romanDigit, buttonEl) {
+            const feedback = document.getElementById('question-feedback');
+            feedback.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedback.className = "pt-2 text-xs font-bold text-caramelo flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-green-700 text-sm"></i> <span>¡Correcto! Petra confirma la respuesta. Cifra desbloqueada: <strong class="text-sm font-cinzel text-cafe">${digit} (${romanDigit})</strong></span>`;
+                unlockStationDigit(digit);
+            } else {
+                feedback.className = "pt-2 text-xs font-bold text-red-700 flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>Respuesta incorrecta. Lee con atención el relato de Petra sobre Varea.</span>`;
+                playTone(180, 0.3);
+            }
+        }
+
+        function checkHardAnswer() {
+            const userInput = document.getElementById('hard-text-answer').value.toLowerCase().trim();
+            const data = STATIONS[currentStationIndex];
+            const feedback = document.getElementById('question-feedback');
+            feedback.classList.remove('hidden');
+
+            if (!userInput) {
+                feedback.className = "pt-2 text-xs font-bold text-red-700";
+                feedback.innerText = "Por favor, escribe una respuesta antes de verificar.";
+                return;
+            }
+
+            // Check if user input contains at least one required keyword
+            const isMatch = data.hardKeywords.some(keyword => userInput.includes(keyword));
+
+            if (isMatch) {
+                feedback.className = "pt-2 text-xs font-bold text-caramelo flex items-center gap-2";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-green-700 text-sm"></i> <span>¡Excelente cultura general! Cifra desbloqueada: <strong class="text-sm font-cinzel text-cafe">${data.digit} (${data.romanDigit})</strong></span>`;
+                unlockStationDigit(data.digit);
+            } else {
+                feedback.className = "pt-2 text-xs font-bold text-red-700 block space-y-1";
+                feedback.innerHTML = `<div><i class="fa-solid fa-circle-xmark mr-1"></i> Respuesta no válida. Inténtalo de nuevo.</div>
+                                       <div class="text-[11px] font-normal text-caramelo italic">${data.hardHint}</div>`;
+                playTone(150, 0.3);
+            }
+        }
+
+        function unlockStationDigit(digit) {
+            playCoinSound();
+
+            collectedDigits[currentStationIndex] = digit;
+            document.getElementById(`digit-slot-${currentStationIndex + 1}`).innerText = digit;
+
+            const clueBox = document.getElementById('next-clue-box');
+            document.getElementById('station-next-clue').innerText = STATIONS[currentStationIndex].nextClue;
+            clueBox.classList.remove('hidden');
+
+            const nextBtn = document.getElementById('btn-next-station');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-vainilla bg-caramelo hover:bg-cafe uppercase tracking-widest transition cursor-pointer border border-miel shadow-md";
         }
 
         function updateProgressStepper(activeIdx) {
@@ -808,33 +1011,6 @@
             }
         }
 
-        function checkAnswer(isCorrect, digit, romanDigit, buttonEl) {
-            const feedback = document.getElementById('question-feedback');
-            feedback.classList.remove('hidden');
-
-            if (isCorrect) {
-                feedback.className = "pt-2 text-xs font-bold text-caramelo flex items-center gap-2";
-                feedback.innerHTML = `<i class="fa-solid fa-circle-check text-green-700"></i> <span>¡Correcto! Petra confirma el hallazgo. Cifra desbloqueada: <strong class="text-sm font-cinzel text-cafe">${digit} (${romanDigit})</strong></span>`;
-                playCoinSound();
-
-                collectedDigits[currentStationIndex] = digit;
-                document.getElementById(`digit-slot-${currentStationIndex + 1}`).innerText = digit;
-
-                const clueBox = document.getElementById('next-clue-box');
-                document.getElementById('station-next-clue').innerText = STATIONS[currentStationIndex].nextClue;
-                clueBox.classList.remove('hidden');
-
-                const nextBtn = document.getElementById('btn-next-station');
-                nextBtn.disabled = false;
-                nextBtn.className = "px-8 py-3 text-xs font-cinzel font-bold text-vainilla bg-caramelo hover:bg-cafe uppercase tracking-widest transition cursor-pointer border border-miel";
-
-            } else {
-                feedback.className = "pt-2 text-xs font-bold text-red-700 flex items-center gap-2";
-                feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>Respuesta incorrecta. Revisa el relato de Petra sobre Varea.</span>`;
-                playTone(180, 0.3);
-            }
-        }
-
         function advanceToNextStation() {
             if (currentStationIndex < STATIONS.length - 1) {
                 loadStation(currentStationIndex + 1);
@@ -846,7 +1022,7 @@
         }
 
         /* ==========================================================================
-           4. CRYPTEX & TREASURE CHEST UNLOCK
+           5. CRYPTEX & TREASURE CHEST UNLOCK
            ========================================================================== */
         function changeCryptexDigit(idx, dir) {
             cryptexIndices[idx] = (cryptexIndices[idx] + dir + 10) % 10;
@@ -874,6 +1050,7 @@
 
         function openDiplomaModal() {
             document.getElementById('diploma-player-name').innerText = playerName || "EXPLORADOR/A DE VARIA";
+            document.getElementById('diploma-difficulty-name').innerText = selectedDifficulty === 'easy' ? 'Fácil / Niños de Primaria' : 'Difícil / Cultura General';
             
             const now = new Date();
             const dateStr = `${now.getDate()} de ${now.toLocaleString('es-ES', { month: 'long' })} de ${now.getFullYear()}`;
@@ -887,7 +1064,7 @@
         }
 
         /* ==========================================================================
-           5. MODALS & QR LOGIC
+           6. MODALS & QR LOGIC
            ========================================================================== */
         function openQRScannerModal() {
             document.getElementById('qr-modal').classList.remove('hidden');
@@ -931,7 +1108,7 @@
         }
 
         /* ==========================================================================
-           6. WEB AUDIO SYNTHESIZER
+           7. WEB AUDIO SYNTHESIZER
            ========================================================================== */
         function getAudioContext() {
             if (!audioCtx) {
@@ -971,7 +1148,7 @@
                 osc.start();
                 osc.stop(ctx.currentTime + duration);
             } catch (e) {
-                console.log("Audio waiting for user interaction");
+                console.log("Audio waiting for user gesture");
             }
         }
 
